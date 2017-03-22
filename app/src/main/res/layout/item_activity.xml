@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页GridView的item布局
+    @author: Jinquan
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_activity_icon"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:background="#11000000"/>
+
+    <TextView
+        android:id="@+id/tv_activity_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="活动介绍"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/item_text_02"
+        android:textSize="11sp"/>
+
+</LinearLayout>
+

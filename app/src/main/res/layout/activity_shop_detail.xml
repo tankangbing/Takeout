@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--第1部分：主体内容，填充屏幕宽高-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--能够弹出一个布局的自定义控件-->
+        <com.flipboard.bottomsheet.BottomSheetLayout
+            android:id="@+id/bottom_sheep_layout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- 顶部标题栏，此背景颜色样式是随机的 -->
+                <RelativeLayout
+                    android:id="@+id/rl_title_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/title_bar_height"
+                    android:background="@color/shop_detail_bg_01"
+                    android:gravity="center_vertical">
+
+                    <ImageButton
+                        android:id="@+id/btn_back"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/transparent"
+                        android:src="@drawable/selector_btn_back"/>
+
+                    <TextView
+                        android:id="@+id/tv_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/btn_back"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+
+                </RelativeLayout>
+
+                <!--标题栏下的商家信息布局-->
+                <LinearLayout
+                    android:id="@+id/ll_shop_info_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:background="@color/shop_detail_bg_01"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/iv_shop_logo"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/order_status_user_icon"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="vertical"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_shop_name"
+                            android:text="肯德基急宅送（奥体店）"
+                            android:textSize="16sp"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <TextView
+                            android:id="@+id/tv_shop_info"
+                            android:text="起送￥0 | 配送￥0 | 送达30分钟"
+                            android:textSize="12sp"
+                            android:textColor="@color/white"
+                            android:layout_width="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--选项卡-->
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/white"
+                    app:tabIndicatorColor="@color/tab_indicator_selected"
+                    app:tabIndicatorHeight="2dp"
+                    app:tabSelectedTextColor="@color/item_text_01"
+                    app:tabTextColor="@color/item_text_01"/>
+
+                <!--分割线-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/list_divider"/>
+
+                <!--Fragment子界面-->
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </com.flipboard.bottomsheet.BottomSheetLayout>
+
+        <!--
+        底部购物车显示栏，高度为50dp。
+        分成了两部分，其中一部分显示，则另一个会隐藏。
+        -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <!--购物车栏第1部分：购物车没有商品时显示该部分-->
+            <LinearLayout
+                android:id="@+id/ll_bottom_card_layout_01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/shop_detail_my_cart_bg"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@drawable/icon_cart"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="购物车是空的"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/tv_send_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="0元起送"
+                    android:textColor="@color/shop_detail_my_cart_text"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+            <!--购物车栏第2部分：购物车有商品时显示-->
+            <LinearLayout
+                android:id="@+id/ll_bottom_card_layout_02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/shop_detail_my_cart_bg"
+                android:clickable="true"
+                android:visibility="gone"
+                android:gravity="center_vertical"
+                android:onClick="onClick"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="70dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center_vertical"
+                        android:text="共￥10"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_delivery_fee"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="3dp"
+                        android:gravity="center"
+                        android:text="另需付配送费0元"
+                        android:textColor="@color/shop_detail_my_cart_text"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="wrap_content"
+                    android:minWidth="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/btn_commit_order"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="选好了"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!--第2部分：左下角的购物车图标, 盖在底部栏上面-->
+    <FrameLayout
+        android:id="@+id/fl_mycart_zoom"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp">
+
+        <ImageButton
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/shape_mycart_bg"
+            android:src="@drawable/icon_cart"/>
+
+        <TextView
+            android:id="@+id/tv_select_count"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right|top"
+            android:background="@drawable/shape_unread_count_bg"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="12sp"/>
+
+    </FrameLayout>
+
+    <!--第3部分：用来作抛物线动画的控件-->
+    <ImageButton
+        android:id="@+id/ib_plus"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/btn_add_normal"
+        android:visibility="gone"/>
+
+</RelativeLayout>

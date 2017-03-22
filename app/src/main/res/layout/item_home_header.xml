@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页RecycleView Item布局：头部item
+    @author: Jinquan
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.daimajia.slider.library.SliderLayout
+        android:id="@+id/slider_layout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"/>
+
+    <!--    <com.itheima.takeout.ui.view.NoScrollGridView
+            android:id="@+id/grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="4"/>-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view_02"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include layout="@layout/view_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="12dp"
+            android:background="@drawable/head_line"/>
+
+        <ViewFlipper
+            android:id="@+id/view_flipper"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:flipInterval="3000"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/go_ahead"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/list_divider"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:text="附近商户"
+            android:textColor="@color/item_text_02"
+            android:textSize="13sp"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/view_divider"/>
+
+</LinearLayout>

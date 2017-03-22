@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <!-- 账号 -->
+    <com.itheima.common.ui.EditLayout
+        android:id="@+id/el_username"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:imeOptions="actionNext"/>
+
+    <!-- 密码 -->
+    <com.itheima.common.ui.EditLayout
+        android:id="@+id/el_password"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dip"
+        android:gravity="center_vertical"/>
+
+    <!-- 登录 -->
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:text="登 录"
+        android:background="@color/btn_get_sms_code"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+
+</LinearLayout>

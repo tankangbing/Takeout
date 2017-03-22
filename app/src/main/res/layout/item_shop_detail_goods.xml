@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:maxLines="2"
+            android:text="尖椒土豆丝"
+            android:textColor="@color/item_text_01"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:text="尖椒土豆丝+千叶豆腐+时蔬"
+            android:textColor="@color/item_text_02"
+            android:lineSpacingExtra="3dp"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_sale_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:maxLines="1"
+            android:textColor="@color/item_text_02"
+            android:text="月售137份  |  好评率 100%"
+            android:textSize="12sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:id="@+id/tv_new_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥30"
+                android:textColor="@color/item_text_price"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/tv_new_price"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/tv_new_price"
+                android:text="￥60"
+                android:textColor="@color/item_text_02"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="right|center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/ib_minus"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/selector_btn_minus"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/tv_buy_count"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="0"
+                    android:textColor="@color/item_text_01"
+                    android:textSize="14sp"
+                    android:visibility="gone"/>
+
+                <ImageButton
+                    android:id="@+id/ib_plus"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/selector_btn_add"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

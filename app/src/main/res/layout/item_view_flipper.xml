@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页GridView的item布局
+    @author: Jinquan
+-->
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:minHeight="30dp"
+    android:textColor="@color/item_text_01"
+    android:gravity="center_vertical"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:textSize="13sp"/>
+

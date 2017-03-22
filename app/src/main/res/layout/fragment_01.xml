@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页Fragment布局，@author: JinQ
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--第1部分： 列表控件-->
+    <com.liaoinstan.springview.widget.SpringView
+        android:id="@+id/spring_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.liaoinstan.springview.widget.SpringView>
+
+    <!--第2部分：定位菜单-->
+    <LinearLayout
+        android:id="@+id/ll_title_bar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:background="@drawable/shape_round_corner_bg"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/home_address_drop_down"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:maxWidth="200dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="送至：吉山幼儿园"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tv_search_01"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/shape_round_corner_bg"
+                android:drawableLeft="@drawable/shop_title_search"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="搜索"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--第3部分：主页顶部弹出窗-->
+    <LinearLayout
+        android:id="@+id/ll_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <!--顶部菜单栏2-->
+        <LinearLayout
+            android:id="@+id/ll_title_bar2"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_title_bar2_left"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/cb_category"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/selector_home_top_category"
+                    android:button="@null"/>
+
+                <CheckBox
+                    android:id="@+id/cb_orderby"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/selector_home_top_orderby"
+                    android:button="@null"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ll_title_bar2_right"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_search_bg"
+                android:clickable="true"
+                android:drawableLeft="@drawable/shop_list_title_search"
+                android:drawablePadding="10dp"
+                android:gravity="center_vertical"
+                android:hint="搜索"
+                android:paddingLeft="10dp"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+        <!--顶部菜单栏下的弹出窗-->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--01.分类弹出窗-->
+            <LinearLayout
+                android:id="@+id/ll_pop_root_01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/translucent"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!--弹出框-->
+                <LinearLayout
+                    android:id="@+id/ll_pop_content_01_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="分类"
+                        android:visibility="gone"/>
+
+                    <ListView
+                        android:id="@+id/lv_category_01"
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:scrollbars="none"
+                        android:fadingEdge="none"
+                        android:layout_weight="1"
+                        android:maxHeight="250dp"/>
+
+                    <ListView
+                        android:id="@+id/lv_category_02"
+                        android:layout_width="0dp"
+                        android:layout_height="250dp"
+                        android:fadingEdge="none"
+                        android:scrollbars="none"
+                        android:layout_weight="1"
+                        android:maxHeight="250dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--02.排序条件弹出窗-->
+            <LinearLayout
+                android:id="@+id/ll_pop_root_02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/translucent"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!--弹出框-->
+                <LinearLayout
+                    android:id="@+id/ll_pop_content_02_order_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:maxHeight="250dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text="排序"/>
+
+                    <ListView
+                        android:id="@+id/lv_order_by"
+                        android:layout_width="match_parent"
+                        android:scrollbars="none"
+                        android:layout_height="250dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

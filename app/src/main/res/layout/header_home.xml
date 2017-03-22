@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页GridView的item布局
+    @author: Jinquan
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:paddingBottom="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_height="50dp">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/pull_back"/>
+
+        <ImageView
+            android:id="@+id/iv_bg02"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/pull_back"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_rider"
+        android:layout_width="40dp"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/iv_rider"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/pull_rider"/>
+
+        <ImageView
+            android:id="@+id/iv_wheel_left"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/pull_wheel"/>
+
+        <ImageView
+            android:id="@+id/iv_wheel_right"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/pull_wheel"/>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_sun"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@id/rl_rider"
+        android:background="@drawable/pull_sun"/>
+
+</RelativeLayout>
+

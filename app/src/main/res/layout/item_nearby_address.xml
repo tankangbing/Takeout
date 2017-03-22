@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    首页GridView的item布局
+    @author: Jinquan
+-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/receive_address_loc_icon"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_location_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[当前位置]吉山春田花花幼儿园"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/item_text_01"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_location_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="广州天河吉山"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/item_text_02"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

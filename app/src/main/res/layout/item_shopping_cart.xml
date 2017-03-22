@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_weight="1"
+        android:singleLine="true"
+        android:text="外带全家桶"
+        android:textColor="@color/item_text_01"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_type_all_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:text="￥60"
+        android:textColor="#cd5656"
+        android:textSize="16sp"/>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/ib_minus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/selector_btn_minus"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tv_cart_goods_amount"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:text="0"
+            android:textColor="@color/item_text_01"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:visibility="visible"/>
+
+        <ImageButton
+            android:id="@+id/ib_plus"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/selector_btn_add"/>
+
+    </LinearLayout>
+
+</LinearLayout>

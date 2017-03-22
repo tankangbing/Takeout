@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--首页全屏沉侵式状态栏-->
+    <style name="FullImmerseMode" parent="AppTheme">
+        <!--<item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>-->
+    </style>
+
+</resources>

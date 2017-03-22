@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/view_divider"/>
+
+    <LinearLayout
+        android:id="@+id/ll_pop_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal"
+        android:background="@color/shop_detail_bg_01">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/icon_cart"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:layout_weight="1"
+            android:text="购物车"/>
+
+        <TextView
+            android:id="@+id/tv_clear_cart"
+            android:layout_width="90dp"
+            android:layout_height="25dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:drawablePadding="10dp"
+            android:textSize="14sp"
+            android:background="@drawable/selector_btn_login2"
+            android:text="清空购物车"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_view"
+        android:divider="@color/activity_bg"
+        android:dividerHeight="1px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

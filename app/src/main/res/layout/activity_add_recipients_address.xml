@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f6f6f9"
+    android:orientation="vertical">
+
+    <include layout="@layout/title_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="联系人"
+            android:textColor="@color/list_item_text_01"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_name"
+            android:background="@null"
+            android:hint="你的姓名"
+            android:maxLines="1"
+            android:textSize="16sp"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="#fff">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="90dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/selector_radio_btn"
+                android:paddingLeft="10dp"
+                android:background="@color/transparent"
+                android:checked="true"
+                android:text="先生"
+                android:textColor="@color/list_item_text_01"
+                android:textSize="16sp"/>
+
+            <RadioButton
+                android:id="@+id/rb_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:button="@drawable/selector_radio_btn"
+                android:background="@color/transparent"
+                android:paddingLeft="10dp"
+                android:text="女士"
+                android:textColor="@color/list_item_text_01"
+                android:textSize="16sp"/>
+        </RadioGroup>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="#fff">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="手机号"
+            android:textColor="@color/list_item_text_01"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="90dp"
+            android:background="@null"
+            android:hint="配送员联系您的电话"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_location"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="收货地址"
+            android:textColor="@color/list_item_text_01"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/receive_address_loc_icon_sel"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:hint="请选择小区、大厦或学校"
+            android:textColor="@color/item_text_02"
+            android:maxLines="1"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/iv_arrow_right"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/arrow_right_2"
+            android:textColor="@color/list_item_text_01"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="1dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="门牌号"
+            android:textColor="@color/list_item_text_01"
+            android:textSize="16sp"/>
+
+        <EditText
+            android:id="@+id/et_address_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="详细地址，例：一号楼一单"
+            android:maxLines="1"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_save_address"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/title_bar_bg"
+        android:textSize="16sp"
+        android:text="保存"
+        android:textColor="#fff"/>
+
+    <Button
+        android:id="@+id/btn_delete_address"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:textSize="16sp"
+        android:background="@drawable/shape_btn_delete_bg"
+        android:text="删除该地址"
+        android:textColor="@color/title_bar_bg"/>
+
+</LinearLayout>
