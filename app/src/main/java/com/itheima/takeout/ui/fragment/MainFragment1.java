@@ -28,6 +28,7 @@ public class MainFragment1 extends BaseFragment
         implements CommonProtocol.OnHttpCallback{
 
     private RecyclerView recyclerView;
+    private HomeAdapter homeAdapter;
 
     @Override
     public int getLayoutRes() {
@@ -40,27 +41,27 @@ public class MainFragment1 extends BaseFragment
     }
 
     private void initRecyclerView() {
-        recyclerView = findView(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-
         // 模拟数据
 //        List<String> listData = new ArrayList<>();
 //        for (int i = 0; i < 20; i++) {
 //            listData.add("item " + (i + 1));
 //        }
 
-        List listData = new ArrayList();
+        // 模拟数据2
+        // List listData = new ArrayList();
         // 集合中会保存三种类型的javabean对象
         // Home : 头部数据
         // ShopListBean ： 商家数据
         // RecommendListBean  ： 广告
-        listData.add(new Home());
+        /*listData.add(new Home());
         for (int i = 0; i < 10; i++) {
             listData.add(new ShopList.ShopListBean());
         }
-        listData.add(new ShopList.RecommendListBean());
+        listData.add(new ShopList.RecommendListBean());*/
 
-        HomeAdapter homeAdapter = new HomeAdapter(mActivity, listData);
+        recyclerView = findView(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        homeAdapter = new HomeAdapter(mActivity, null);
         recyclerView.setAdapter(homeAdapter);
     }
 
@@ -89,13 +90,20 @@ public class MainFragment1 extends BaseFragment
     public void onClick(View v, int id) {
     }
 
+    /** RecyclerView显示的数据集合 */
+    private List listData = new ArrayList();
+
     @Override
     public void onHttpSuccess(int reqType, Message msg) {
         if (reqType == IHttpService.TYPE_HOME) {
             Home home = (Home) msg.obj;
-            showToast("显示首页数据：" + home);
+            // showToast("显示首页数据：" + home);
+            // 显示首页数据
+            listData.add(home);
+            homeAdapter.setDatas(listData);
+
             // mProtocol.getShopList(this, 1, 10, 0, 0);
-            presenter.getShopList(1, 10, 0, 0);
+            // presenter.getShopList(1, 10, 0, 0);
             return;
         }
 
