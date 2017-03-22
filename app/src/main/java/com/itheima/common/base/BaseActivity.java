@@ -3,6 +3,7 @@ package com.itheima.common.base;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
+import com.itheima.takeout.base.BaseView;
 
 /**
  * Activity基类，所有的Activity都需要继承此类。
@@ -19,7 +21,7 @@ import com.itheima.takeout.R;
  * @author WJQ
  */
 public abstract class BaseActivity extends AppCompatActivity
-		implements IUIOperation {
+		implements IUIOperation, BaseView {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +145,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
 		/** 取消 */
 		public void onCancel(DialogInterface dialog) ;
+	}
+
+	// 网络请求成功
+	@Override
+	public void onHttpSuccess(int reqType, Message obj) {
+	}
+
+	// 网络请求失败
+	@Override
+	public void onHttpError(int reqType, String error) {
 	}
 }
 

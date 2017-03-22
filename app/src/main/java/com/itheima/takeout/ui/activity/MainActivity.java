@@ -18,8 +18,6 @@ import com.itheima.takeout.ui.fragment.MainFragment4;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.microedition.khronos.opengles.GL;
-
 
 public class MainActivity extends BaseActivity {
 

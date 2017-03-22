@@ -102,7 +102,6 @@ public class Home {
          * title : 好评率超高听标榜单餐厅
          * url :
          */
-
         private String detail;
         private int id;
         private String title;

@@ -8,7 +8,6 @@ import java.util.List;
  */
 public class ShopList {
 
-
     /**
      * error :
      * pageCount : 10
@@ -230,7 +229,6 @@ public class ShopList {
          * type : 0
          * url :
          */
-
         private String detail;
         private int id;
         private String image;

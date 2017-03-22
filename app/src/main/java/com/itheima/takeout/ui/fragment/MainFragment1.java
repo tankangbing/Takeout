@@ -9,6 +9,7 @@ import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.protocol.CommonProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
+import com.itheima.takeout.presenter.HomeFragment1Presenter;
 
 /**
  * @author WJQ
@@ -29,12 +30,15 @@ public class MainFragment1 extends BaseFragment
     public void initListener() {
     }
 
-    private CommonProtocol mProtocol;
+    HomeFragment1Presenter presenter;
 
     @Override
     public void initData() {
-        mProtocol = new CommonProtocol();
-        mProtocol.getHomeData(this);
+        // mProtocol = new CommonProtocol();
+        // mProtocol.getHomeData(this);
+
+        presenter = new HomeFragment1Presenter(this);
+        presenter.getHomeData();
     }
 
     @Override
@@ -46,7 +50,8 @@ public class MainFragment1 extends BaseFragment
         if (reqType == IHttpService.TYPE_HOME) {
             Home home = (Home) msg.obj;
             showToast("显示首页数据：" + home);
-            mProtocol.getShopList(this, 1, 10, 0, 0);
+            // mProtocol.getShopList(this, 1, 10, 0, 0);
+            presenter.getShopList(1, 10, 0, 0);
             return;
         }
 

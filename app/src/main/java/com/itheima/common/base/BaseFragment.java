@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
+import com.itheima.takeout.base.BaseView;
 
 /**
  * Fragment基类，所有的Fragment都需要继承此类。
@@ -19,7 +20,7 @@ import com.itheima.takeout.R;
  * @author WJQ
  */
 public abstract class BaseFragment extends Fragment
-		implements IUIOperation {
+		implements IUIOperation, BaseView {
 
 	/** 管理Fragment的Activity */
 	public BaseActivity mActivity;
@@ -92,6 +93,16 @@ public abstract class BaseFragment extends Fragment
 	
 	public void showToast(String text) {
 		Global.showToast(text);
+	}
+
+	// 网络请求成功
+	@Override
+	public void onHttpSuccess(int reqType, Message obj) {
+	}
+
+	// 网络请求失败
+	@Override
+	public void onHttpError(int reqType, String error) {
 	}
 }
 
