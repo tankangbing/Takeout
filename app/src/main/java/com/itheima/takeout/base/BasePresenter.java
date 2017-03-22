@@ -8,7 +8,6 @@ import com.itheima.takeout.model.protocol.CommonProtocol;
 /**
  * @author WJQ
  */
-
 public class BasePresenter {
 
     public BaseProtocol.OnHttpCallback mCallback
