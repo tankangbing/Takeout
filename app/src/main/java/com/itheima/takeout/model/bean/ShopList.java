@@ -311,6 +311,9 @@ public class ShopList {
          * tag : 0
          */
 
+        /** 商家活动显示是否展开 */
+        public boolean expanded = false;
+
         private int averageConsume;
         private int categoryId;
         private int deliveryFee;
