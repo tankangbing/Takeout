@@ -169,8 +169,10 @@ public class HomeShopHolder extends BaseHolderRV {
 
         if (count <= 2) {
             tvActivityCount.setVisibility(View.GONE);
+            rlActivityLayout.setEnabled(false);
         } else {
             tvActivityCount.setVisibility(View.VISIBLE);
+            rlActivityLayout.setEnabled(true);
         }
 
         ViewGroup.LayoutParams param = llActivityList.getLayoutParams();

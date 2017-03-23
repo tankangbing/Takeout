@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.itheima.common.base.BaseFragment;
+import com.itheima.common.base.Const;
+import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
 import com.itheima.takeout.dagger2.component.DaggerMainFragment1Component;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
@@ -19,6 +21,8 @@ import com.itheima.takeout.model.protocol.CommonProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
+import com.liaoinstan.springview.container.MeituanFooter;
+import com.liaoinstan.springview.container.MeituanHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
 import java.util.ArrayList;
@@ -79,6 +83,29 @@ public class MainFragment1 extends BaseFragment {
         lvOrderBy = (ListView) findView(R.id.lv_order_by);
         
         initRecyclerView();
+        initSpringView();
+    }
+
+    private void initSpringView() {
+        springView.setHeader(new MeituanHeader(mActivity));
+        springView.setFooter(new MeituanFooter(mActivity));
+        springView.setType(SpringView.Type.FOLLOW);
+
+        springView.setListener(new SpringView.OnFreshListener() {
+            @Override
+            public void onRefresh() {   // 下拉刷新
+                // showToast("下拉刷新");
+
+                presenter.getHomeData();
+                // springView.onFinishFreshAndLoad();
+            }
+
+            @Override
+            public void onLoadmore() {  // 加载更多
+                showToast("加载更多");
+                presenter.getShopList();
+            }
+        });
     }
 
     private void initRecyclerView() {
@@ -106,8 +133,32 @@ public class MainFragment1 extends BaseFragment {
         recyclerView.setAdapter(homeAdapter);
     }
 
+    /**  recyclerView垂直方向滚动的距离 */
+    private int mDistance;
+    private int mRageHeight = Global.dp2px(150);
+
     @Override
     public void initListener() {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            // 监听RecyclerView的滚动
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                mDistance += dy;
+
+                // (1) 滚动列表时，改变标题栏1的透明度
+                if (mDistance < 0) {
+                    tvLocation.setAlpha(1);
+                    tvSearch01.setAlpha(1);
+                } else  {
+                    // 0到1
+                    float percent = Math.min(mDistance, mRageHeight) / ((float)mRageHeight);
+                    tvLocation.setAlpha(1 - percent);
+                    tvSearch01.setAlpha(1 - percent);
+                }
+
+                // (2)
+            }
+        });
     }
 
     @Inject
@@ -140,20 +191,37 @@ public class MainFragment1 extends BaseFragment {
             Home home = (Home) msg.obj;
             // showToast("显示首页数据：" + home);
             // 显示首页数据
+            listData = new ArrayList();
             listData.add(home);
             // homeAdapter.setDatas(listData);
 
             // 加载商家列表数据
             // mProtocol.getShopList(this, 0, 0);
-            presenter.getShopList();
+            presenter.getShopListRefresh();
+            // presenter.getShopList(true);
             return;
         }
 
         if (reqType == IHttpService.TYPE_SHOP_LIST) {
             ArrayList pageDatas = (ArrayList) msg.obj;
+
+            // 隐藏springView的头部和尾部
+            springView.onFinishFreshAndLoad();
+
             // showToast("商家数据：" + bean.getShopList().size());
             // pageDatas: 10个商家+1则广告
-            listData.addAll(pageDatas);
+            if (msg.what == Const.TYPE_REFRESH) {   // 下拉刷新
+                ArrayList newDatas = new ArrayList();
+                //  列表头部数据
+                newDatas.add(listData.get(0));
+                // 第一页数据和广告
+                newDatas.addAll(pageDatas);
+
+                listData = newDatas;
+            } else { // 加载更多
+                listData.addAll(pageDatas);
+            }
+
             // 刷新列表显示
             homeAdapter.setDatas(listData);
             return;

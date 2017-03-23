@@ -2,6 +2,7 @@ package com.itheima.takeout.presenter;
 
 import android.os.Message;
 
+import com.itheima.common.base.Global;
 import com.itheima.takeout.base.BasePresenter;
 import com.itheima.takeout.base.BaseView;
 import com.itheima.takeout.model.bean.ShopList;
@@ -17,9 +18,9 @@ import java.util.ArrayList;
 public class HomeFragment1Presenter extends BasePresenter {
 
     /** 第几页数据 */
-    private int pageNo = 1;
+    private int mPageNo = 1;
     /** 每页多少条 */
-    private int pageCount = 10;
+    private int mPageCount = 10;
 
     public BaseProtocol.OnHttpCallback mCallback
             = new BaseProtocol.OnHttpCallback() {
@@ -42,6 +43,13 @@ public class HomeFragment1Presenter extends BasePresenter {
                     pageData.add(bean.getRecommendList().get(0));
                 }
                 msg.obj = pageData;
+
+                mPageNo++;
+
+                if (pageData.size() < 1) {
+                    Global.showToast("已经是最后一页了");
+                }
+
                 // 返回到界面
                 baseView.onHttpSuccess(reqType, msg);
                 return;
@@ -63,9 +71,31 @@ public class HomeFragment1Presenter extends BasePresenter {
         mProtocol.getHomeData(mBaseCallback);
     }
 
+    /**
+     * 传true表示加载第一页数据
+     *
+     * @param firstPage
+     */
+    public void getShopList(boolean firstPage) {
+        if (firstPage)
+            mPageNo = 1;
+        // 0: 获取所有的商家
+        mProtocol.getShopList(mCallback, mPageNo,
+                mPageCount, 0, 0, firstPage);
+    }
+
+    /** 下拉刷新 */
+    public void getShopListRefresh() {
+        mPageNo = 1;
+        // 0: 获取所有的商家
+        mProtocol.getShopList(mCallback, mPageNo,
+                mPageCount, 0, 0, true);
+    }
+
+    /** 加载分页数据 */
     public void getShopList() {
         // 0: 获取所有的商家
-        mProtocol.getShopList(mCallback, pageNo,
-                pageCount, 0, 0);
+        mProtocol.getShopList(mCallback, mPageNo,
+                mPageCount, 0, 0, false);
     }
 }

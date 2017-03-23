@@ -1,5 +1,6 @@
 package com.itheima.takeout.model.protocol;
 
+import com.itheima.common.base.Const;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.ShopList;
 
@@ -23,10 +24,20 @@ public class CommonProtocol extends BaseProtocol {
                 callback, IHttpService.TYPE_HOME, Home.class);
     }
 
-    /** 获取附近商家列表 */
+    /**
+     * 获取附近商家列表
+     *
+     * @param callback
+     * @param pageNo
+     * @param pageCount
+     * @param categoryId
+     * @param orderBy
+     * @param firstPage true:表示第一页，也就是下拉刷新
+     */
     public void getShopList(final OnHttpCallback callback,
                             int pageNo, int pageCount,
-                            int categoryId, int orderBy) {
+                            int categoryId, int orderBy,
+                            boolean firstPage) {
 
         Map<String, Object> map = new HashMap<String, Object>() ;
         map.put("latitude", 23d);   // 写死
@@ -36,7 +47,8 @@ public class CommonProtocol extends BaseProtocol {
         map.put("categoryId", categoryId);
         map.put("orderBy", orderBy);
 
+        int what =  firstPage? Const.TYPE_REFRESH : Const.TYPE_LOAD_MORE;
         super.execute(super.getHttpService().getShopList(map),
-                callback, IHttpService.TYPE_SHOP_LIST, ShopList.class);
+                callback, IHttpService.TYPE_SHOP_LIST, ShopList.class, what);
     }
 }
