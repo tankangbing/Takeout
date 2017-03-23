@@ -2,6 +2,7 @@ package com.itheima.takeout.model.protocol;
 
 import com.itheima.common.base.Const;
 import com.itheima.takeout.model.bean.Home;
+import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.bean.ShopList;
 
 import java.util.HashMap;
@@ -22,6 +23,12 @@ public class CommonProtocol extends BaseProtocol {
     public void getHomeData(final OnHttpCallback callback) {
         super.execute(super.getHttpService().getHomeData(),
                 callback, IHttpService.TYPE_HOME, Home.class);
+    }
+
+    /** 获取商家类别 */
+    public void getShopCategory(final OnHttpCallback callback) {
+        super.execute(super.getHttpService().getShopCategory(),
+                callback, IHttpService.TYPE_SHOP_CATEGORY, ShopCategory.class);
     }
 
     /**

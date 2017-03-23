@@ -5,6 +5,7 @@ import android.os.Message;
 import com.itheima.common.base.Global;
 import com.itheima.takeout.base.BasePresenter;
 import com.itheima.takeout.base.BaseView;
+import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.protocol.BaseProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
@@ -26,6 +27,16 @@ public class HomeFragment1Presenter extends BasePresenter {
             = new BaseProtocol.OnHttpCallback() {
         @Override
         public void onHttpSuccess(int reqType, Message msg) {
+            if (reqType == IHttpService.TYPE_SHOP_CATEGORY) {
+                // 处理并转换数据，回调用界面
+                ShopCategory shopCategory = (ShopCategory) msg.obj;
+                // 转换数据
+                msg.obj = transformShopCategory(shopCategory);
+                // 返回到界面
+                baseView.onHttpSuccess(reqType, msg);
+                return;
+            }
+
             if (reqType == IHttpService.TYPE_SHOP_LIST) {
                 // 处理并转换数据，回调用界面
                 // 处理并转换数据
@@ -62,6 +73,39 @@ public class HomeFragment1Presenter extends BasePresenter {
         }
     };
 
+    /**
+     * 转换数据
+     * @param shopCategory
+     * @return
+     */
+    private ArrayList<ShopCategory.CategoryListBean>
+            transformShopCategory(ShopCategory shopCategory) {
+
+        // （1）查找所有的商家父类别
+        ArrayList<ShopCategory.CategoryListBean> parentCategory
+                = new ArrayList<ShopCategory.CategoryListBean>();
+        for (ShopCategory.CategoryListBean bean :
+                shopCategory.getCategoryList()) {
+            // id为-1表示父类别
+            if (bean.getParentCategory() == -1) {
+                parentCategory.add(bean);
+            }
+        }
+
+        // （2）给每个父类别添加子类别
+        for (ShopCategory.CategoryListBean parent : parentCategory) {
+            // 遍历所有的类别
+            for (ShopCategory.CategoryListBean bean :
+                    shopCategory.getCategoryList()) {
+                if (bean.getParentCategory() == parent.getId()) {
+                    parent.childCategory.add(bean);
+                }
+            }
+        }
+
+        return parentCategory;
+    }
+
     public HomeFragment1Presenter(BaseView baseView) {
         super(baseView);
     }
@@ -69,6 +113,10 @@ public class HomeFragment1Presenter extends BasePresenter {
     public void getHomeData() {
         // P层 调用 M层
         mProtocol.getHomeData(mBaseCallback);
+    }
+
+    public void getShopCategoryData() {
+        mProtocol.getShopCategory(mCallback);
     }
 
     /**

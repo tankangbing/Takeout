@@ -18,6 +18,7 @@ import com.itheima.takeout.R;
 import com.itheima.takeout.dagger2.component.DaggerMainFragment1Component;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
 import com.itheima.takeout.model.bean.Home;
+import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
@@ -29,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import static android.R.attr.category;
 
 /**
  * @author WJQ
@@ -90,6 +93,9 @@ public class MainFragment1 extends BaseFragment {
         llTitleBar2Left.setTranslationX(-mTitleBar2LeftWidth);
         llTitleBar2Right.setTranslationX(mTitleBar2RightWidth);
 
+        llPopContent01Category.setTranslationY(-Global.dp2px(250));
+        llPopContent02OrderBy.setTranslationY(-Global.dp2px(250));
+
         initRecyclerView();
         initSpringView();
     }
@@ -147,48 +153,58 @@ public class MainFragment1 extends BaseFragment {
     private int mRageHeight = Global.dp2px(150);
     // 标题栏2隐藏状态
     private boolean mTitleBar2Show = false;
+
+    RecyclerView.OnScrollListener mScrollListener = new RecyclerView.OnScrollListener() {
+        // 监听RecyclerView的滚动
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            mDistance += dy;
+
+            // (1) 滚动列表时，改变标题栏1的透明度
+            if (mDistance < 0) {
+                tvLocation.setAlpha(1);
+                tvSearch01.setAlpha(1);
+            } else {
+                // 0到1
+                float percent = Math.min(mDistance, mRageHeight) / ((float)
+                        mRageHeight);
+                tvLocation.setAlpha(1 - percent);
+                tvSearch01.setAlpha(1 - percent);
+            }
+
+            // (2) 标题栏2的显示与隐藏
+            if (!mTitleBar2Show && mDistance > mRageHeight) {
+                // 隐藏 -> 显示
+                mTitleBar2Show = true;
+                showTitleBar2();
+                // 状态栏设为黑包
+                Global.setStatusBarColor(mActivity, Color.BLACK);
+
+            } else if (mTitleBar2Show && mDistance < mRageHeight) {
+                // 显示 -> 隐藏
+                mTitleBar2Show = false;
+                hideTitleBar2();
+
+                // 状态栏透明
+                Global.getMainHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Global.setNoStatusBarFullMode(mActivity);
+                    }
+                }, 300);
+            }
+        }
+    };
+
     @Override
     public void initListener() {
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            // 监听RecyclerView的滚动
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                mDistance += dy;
+        recyclerView.setOnScrollListener(mScrollListener);
 
-                // (1) 滚动列表时，改变标题栏1的透明度
-                if (mDistance < 0) {
-                    tvLocation.setAlpha(1);
-                    tvSearch01.setAlpha(1);
-                } else  {
-                    // 0到1
-                    float percent = Math.min(mDistance, mRageHeight) / ((float)mRageHeight);
-                    tvLocation.setAlpha(1 - percent);
-                    tvSearch01.setAlpha(1 - percent);
-                }
-
-                // (2) 标题栏2的显示与隐藏
-                if (!mTitleBar2Show && mDistance > mRageHeight) {
-                    // 隐藏 -> 显示
-                    mTitleBar2Show = true;
-                    showTitleBar2();
-                    // 状态栏设为黑包
-                    Global.setStatusBarColor(mActivity, Color.BLACK);
-
-                } else if (mTitleBar2Show && mDistance < mRageHeight) {
-                    // 显示 -> 隐藏
-                    mTitleBar2Show = false;
-                    hideTitleBar2();
-
-                    // 状态栏透明
-                    Global.getMainHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Global.setNoStatusBarFullMode(mActivity);
-                        }
-                    }, 300);
-                }
-            }
-        });
+        // 标题栏2两个CheckBox设置点击监听
+        cbCategory.setOnClickListener(this);
+        cbOrderby.setOnClickListener(this);
+        llPopRoot01.setOnClickListener(this);
+        llPopRoot02.setOnClickListener(this);
     }
 
     // 显示标题栏2
@@ -229,10 +245,65 @@ public class MainFragment1 extends BaseFragment {
                 .build().inject(this);
 
         presenter.getHomeData();
+        presenter.getShopCategoryData();
     }
+
 
     @Override
     public void onClick(View v, int id) {
+        switch (id) {
+            case R.id.ll_pop_root_01:
+            case R.id.cb_category:      // 标题栏2类别CheckBox
+                showOrHideCategoryLayout();
+                break;
+            case R.id.ll_pop_root_02:
+            case R.id.cb_orderby:       // 标题栏2排序条件CheckBox
+                showOrHideOrderByLayout();
+                break;
+        }
+    }
+
+    private void showOrHideCategoryLayout() {
+        cbOrderby.setChecked(false);
+        if (llPopRoot01.getVisibility() == View.GONE) {
+            //  隐藏 -> 显示 类别窗口
+            llPopRoot01.setVisibility(View.VISIBLE);
+            llPopRoot02.setVisibility(View.GONE);
+
+            // 从上往下移动
+            llPopContent01Category.animate().translationY(0);
+        } else { //  显示 -> 隐藏
+
+            // 从下往上移动
+            llPopContent01Category.animate().translationY(-Global.dp2px(250));
+            Global.getMainHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    llPopRoot01.setVisibility(View.GONE);
+                }
+            }, 300);
+        }
+    }
+
+    private void showOrHideOrderByLayout() {
+        cbCategory.setChecked(false);
+
+        if (llPopRoot02.getVisibility() == View.GONE) {
+            //  隐藏 -> 显示 类别窗口
+            llPopRoot02.setVisibility(View.VISIBLE);
+            llPopRoot01.setVisibility(View.GONE);
+            // 从上往下移动
+            llPopContent02OrderBy.animate().translationY(0);
+        } else { //  显示 -> 隐藏
+            // 从下往上移动
+            llPopContent02OrderBy.animate().translationY(-Global.dp2px(250));
+            Global.getMainHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    llPopRoot02.setVisibility(View.GONE);
+                }
+            }, 300);
+        }
     }
 
     /** RecyclerView显示的数据集合 */
@@ -252,6 +323,14 @@ public class MainFragment1 extends BaseFragment {
             // mProtocol.getShopList(this, 0, 0);
             presenter.getShopListRefresh();
             // presenter.getShopList(true);
+            return;
+        }
+
+        if (reqType == IHttpService.TYPE_SHOP_CATEGORY) {
+            // 所有的商家父类别
+            ArrayList<ShopCategory.CategoryListBean> parentCategory = (ArrayList
+                    <ShopCategory.CategoryListBean>) msg.obj;
+            showToast("商家父个数：" + parentCategory.size());
             return;
         }
 

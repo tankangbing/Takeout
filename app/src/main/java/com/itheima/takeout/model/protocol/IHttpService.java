@@ -22,9 +22,13 @@ public interface IHttpService {
 
     int TYPE_HOME = 0;
     int TYPE_SHOP_LIST = 1;
+    int TYPE_SHOP_CATEGORY = 2;
 
     @GET("home")
     Call<JsonObject> getHomeData();
+
+    @GET("shopCategory")
+    Call<JsonObject> getShopCategory();
 
     @POST("shopList")
     @FormUrlEncoded
