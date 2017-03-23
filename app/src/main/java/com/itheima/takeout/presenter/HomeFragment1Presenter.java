@@ -103,6 +103,21 @@ public class HomeFragment1Presenter extends BasePresenter {
             }
         }
 
+        // （3）添加“全部”
+        ShopCategory.CategoryListBean allBean =
+                new ShopCategory.CategoryListBean();
+        allBean.setId(0);
+        allBean.setName("全部");
+        allBean.setParentCategory(-1);
+        // 总商家个数
+        int totalCount = 0;
+        for (ShopCategory.CategoryListBean category : parentCategory) {
+            totalCount += category.getShopCount();
+        }
+        allBean.setShopCount(totalCount);
+        // 加到集合的第一个位置
+        parentCategory.add(0, allBean);
+
         return parentCategory;
     }
 
@@ -119,6 +134,10 @@ public class HomeFragment1Presenter extends BasePresenter {
         mProtocol.getShopCategory(mCallback);
     }
 
+    public void getOrderByData() {
+        mProtocol.getOrderBy(mBaseCallback);
+    }
+
     /**
      * 传true表示加载第一页数据
      *
@@ -130,6 +149,21 @@ public class HomeFragment1Presenter extends BasePresenter {
         // 0: 获取所有的商家
         mProtocol.getShopList(mCallback, mPageNo,
                 mPageCount, 0, 0, firstPage);
+    }
+
+    /**
+     * 搜索商家
+     *
+     * @param shopCategory 商家类别
+     * @param orderBy 排序条件
+     * @param firstPage 是否是搜索第一页数据
+     */
+    public void getShopList(int shopCategory, int orderBy, boolean firstPage) {
+        if (firstPage)
+            mPageNo = 1;
+        // 0: 获取所有的商家
+        mProtocol.getShopList(mCallback, mPageNo,
+                mPageCount, shopCategory, orderBy, firstPage);
     }
 
     /** 下拉刷新 */

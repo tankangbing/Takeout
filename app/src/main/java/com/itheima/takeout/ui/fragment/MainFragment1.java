@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -18,10 +19,13 @@ import com.itheima.takeout.R;
 import com.itheima.takeout.dagger2.component.DaggerMainFragment1Component;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
 import com.itheima.takeout.model.bean.Home;
+import com.itheima.takeout.model.bean.OrderBy;
 import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
+import com.itheima.takeout.ui.adapter.OrderByAdapter;
+import com.itheima.takeout.ui.adapter.ShopCategoryAdapter;
 import com.liaoinstan.springview.container.MeituanFooter;
 import com.liaoinstan.springview.container.MeituanHeader;
 import com.liaoinstan.springview.widget.SpringView;
@@ -58,6 +62,9 @@ public class MainFragment1 extends BaseFragment {
     private LinearLayout llPopRoot02;
     private LinearLayout llPopContent02OrderBy;
     private ListView lvOrderBy;
+    private ShopCategoryAdapter mParentCategoryAdapter;
+    private ShopCategoryAdapter mChildCategoryAdapter;
+    private OrderByAdapter mOrderByAdapter;
 
     @Override
     public int getLayoutRes() {
@@ -79,11 +86,25 @@ public class MainFragment1 extends BaseFragment {
         cbOrderby = (CheckBox) findView(R.id.cb_orderby);
         llPopRoot01 = (LinearLayout) findView(R.id.ll_pop_root_01);
         llPopContent01Category = (LinearLayout) findView(R.id.ll_pop_content_01_category);
-        lvCategory01 = (ListView) findView(R.id.lv_category_01);
-        lvCategory02 = (ListView) findView(R.id.lv_category_02);
         llPopRoot02 = (LinearLayout) findView(R.id.ll_pop_root_02);
         llPopContent02OrderBy = (LinearLayout) findView(R.id.ll_pop_content_02_order_by);
+
+        lvCategory01 = (ListView) findView(R.id.lv_category_01);
+        lvCategory02 = (ListView) findView(R.id.lv_category_02);
         lvOrderBy = (ListView) findView(R.id.lv_order_by);
+
+        // 不显示分割线
+        lvCategory01.setDividerHeight(0);
+        lvCategory02.setDividerHeight(0);
+        lvOrderBy.setDividerHeight(0);
+
+        mParentCategoryAdapter = new ShopCategoryAdapter(mActivity, null);
+        mChildCategoryAdapter = new ShopCategoryAdapter(mActivity, null);
+        mOrderByAdapter = new OrderByAdapter(mActivity, null);
+
+        lvCategory01.setAdapter(mParentCategoryAdapter);
+        lvCategory02.setAdapter(mChildCategoryAdapter);
+        lvOrderBy.setAdapter(mOrderByAdapter);
 
         // 标题栏2
         llTitleBar2 = (LinearLayout) findView(R.id.ll_title_bar2);
@@ -118,7 +139,7 @@ public class MainFragment1 extends BaseFragment {
             @Override
             public void onLoadmore() {  // 加载更多
                 showToast("加载更多");
-                presenter.getShopList();
+                presenter.getShopList(getShopCategory(), getOrderBy(), false);
             }
         });
     }
@@ -205,7 +226,95 @@ public class MainFragment1 extends BaseFragment {
         cbOrderby.setOnClickListener(this);
         llPopRoot01.setOnClickListener(this);
         llPopRoot02.setOnClickListener(this);
+
+        lvCategory01.setOnItemClickListener(mOnItemClickListener);
+        lvCategory02.setOnItemClickListener(mOnItemClickListener);
+        lvOrderBy.setOnItemClickListener(mOnItemClickListener);
     }
+
+    /** 当前选中的商家类别 */
+    private ShopCategory.CategoryListBean mSelectedCategory;
+    private OrderBy.OrderByListBean mSelectedOrderBy;
+
+    private int getShopCategory() {
+        // 0: 表示获取所有的商家
+        return (mSelectedCategory == null) ? 0 : mSelectedCategory.getId();
+    }
+
+    private int orderBy = 0;
+
+    private int getOrderBy() {
+        return (mSelectedOrderBy == null) ? 0 : mSelectedOrderBy.getTag();
+    }
+
+    /** 列表项点击事件 */
+    AdapterView.OnItemClickListener mOnItemClickListener
+            = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (parent == lvCategory01) {   // 父类别列表
+                // 点击选中的类别
+                ShopCategory.CategoryListBean bean = (ShopCategory.CategoryListBean)
+                        parent.getItemAtPosition(position);
+
+                // (1) 高亮选中项
+                mParentCategoryAdapter.mSelectedCategory = bean;
+                mParentCategoryAdapter.notifyDataSetChanged();  // 刷新，高亮显示选中类别
+
+                // (2) 显示右边子类别列表
+                mChildCategoryAdapter.setDatas(bean.childCategory);
+
+                // (3) 根据类别搜索商家数据
+                boolean hasChildCategory = bean.childCategory.size() > 0;
+                if (!hasChildCategory) {
+                    // 没有子类别，请求对应的商家列表数据
+                    mSelectedCategory = bean;
+                    // 隐藏弹出窗口
+                    showOrHideCategoryLayout();
+                    // 重新根据类别搜索商家
+                    presenter.getShopList(getShopCategory(), getOrderBy(), true);
+                }
+                return;
+            }
+
+            if (parent == lvCategory02) {   // 子类别列表
+                // 点击选中的类别
+                ShopCategory.CategoryListBean bean = (ShopCategory.CategoryListBean)
+                        parent.getItemAtPosition(position);
+
+                // (1) 高亮选中项
+                mChildCategoryAdapter.mSelectedCategory = bean;
+                mChildCategoryAdapter.notifyDataSetChanged();  // 刷新，高亮显示选中类别
+
+                // (2) 根据类别搜索商家
+                mSelectedCategory = bean;
+                // 隐藏弹出窗口
+                showOrHideCategoryLayout();
+                // 重新根据类别搜索商家
+                presenter.getShopList(getShopCategory(), getOrderBy(), true);
+
+                return;
+            }
+
+            if (parent == lvOrderBy) {      // 排序条件列表
+                // 点击选中的类别
+                OrderBy.OrderByListBean bean = (OrderBy.OrderByListBean)
+                        parent.getItemAtPosition(position);
+
+                // (1) 高亮选中项
+                mOrderByAdapter.mSelectedOrderBy = bean;
+                mOrderByAdapter.notifyDataSetChanged();  // 刷新，高亮显示选中类别
+
+                // (2) 根据排序条件搜索商家
+                mSelectedOrderBy = bean;
+                // 隐藏弹出窗口
+                showOrHideOrderByLayout();
+                // 重新根据排序条件搜索商家
+                presenter.getShopList(getShopCategory(), getOrderBy(), true);
+                return;
+            }
+        }
+    };
 
     // 显示标题栏2
     private void showTitleBar2() {
@@ -246,6 +355,7 @@ public class MainFragment1 extends BaseFragment {
 
         presenter.getHomeData();
         presenter.getShopCategoryData();
+        presenter.getOrderByData();
     }
 
 
@@ -321,16 +431,23 @@ public class MainFragment1 extends BaseFragment {
 
             // 加载商家列表数据
             // mProtocol.getShopList(this, 0, 0);
-            presenter.getShopListRefresh();
-            // presenter.getShopList(true);
+            presenter.getShopList(getShopCategory(), getOrderBy(), true);
             return;
         }
 
         if (reqType == IHttpService.TYPE_SHOP_CATEGORY) {
             // 所有的商家父类别
-            ArrayList<ShopCategory.CategoryListBean> parentCategory = (ArrayList
-                    <ShopCategory.CategoryListBean>) msg.obj;
-            showToast("商家父个数：" + parentCategory.size());
+            ArrayList<ShopCategory.CategoryListBean> parentCategory =
+                    (ArrayList<ShopCategory.CategoryListBean>) msg.obj;
+            // 显示父类别
+            mParentCategoryAdapter.setDatas(parentCategory);
+            return;
+        }
+
+        if (reqType == IHttpService.TYPE_ORDER_BY) {
+            OrderBy bean = (OrderBy) msg.obj;
+            showToast("orderBy: " + bean.getOrderByList());
+            mOrderByAdapter.setDatas(bean.getOrderByList());
             return;
         }
 
