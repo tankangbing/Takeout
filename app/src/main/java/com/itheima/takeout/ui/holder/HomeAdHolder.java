@@ -21,16 +21,14 @@ public class HomeAdHolder extends BaseHolderRV {
 
     public HomeAdHolder(Context context, ViewGroup parent,
                         BaseAdapterRV adapter, int itemType) {
-        super(context, parent, adapter, itemType, R.layout.item_order_by);
+        super(context, parent, adapter, itemType, R.layout.item_home_ad);
     }
 
     @Override
     public void onFindViews(View itemView) {
-        tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
     }
 
     @Override
     protected void onRefreshView(Object bean, int position) {
-        tvTitle.setText("广告");
     }
 }

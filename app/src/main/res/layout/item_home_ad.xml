@@ -15,8 +15,9 @@
         android:id="@+id/iv_ad_image"
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:layout_margin="10dp"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/tv_ad_title"

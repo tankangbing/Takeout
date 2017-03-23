@@ -9,8 +9,17 @@ import com.itheima.takeout.model.protocol.CommonProtocol;
  * @author WJQ
  */
 public class BasePresenter {
+    // Model层
+    public CommonProtocol mProtocol;
+    // View层
+    public BaseView baseView;
 
-    public BaseProtocol.OnHttpCallback mCallback
+    public BasePresenter(BaseView baseView) {
+        this.baseView = baseView;
+        mProtocol = new CommonProtocol();
+    }
+
+    public BaseProtocol.OnHttpCallback mBaseCallback
             = new BaseProtocol.OnHttpCallback() {
         @Override
         public void onHttpSuccess(int reqType, Message obj) {
@@ -23,15 +32,4 @@ public class BasePresenter {
             baseView.onHttpError(reqType, error);
         }
     };
-
-    // Model层
-    public CommonProtocol mProtocol;
-    // View层
-    public BaseView baseView;
-
-    public BasePresenter(BaseView baseView) {
-        this.baseView = baseView;
-        mProtocol = new CommonProtocol();
-    }
-
 }

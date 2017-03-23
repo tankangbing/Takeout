@@ -4,6 +4,10 @@ import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.itheima.common.base.BaseFragment;
 import com.itheima.takeout.R;
@@ -15,6 +19,7 @@ import com.itheima.takeout.model.protocol.CommonProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
+import com.liaoinstan.springview.widget.SpringView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +29,28 @@ import javax.inject.Inject;
 /**
  * @author WJQ
  */
-public class MainFragment1 extends BaseFragment
-        implements CommonProtocol.OnHttpCallback{
+public class MainFragment1 extends BaseFragment {
 
     private RecyclerView recyclerView;
     private HomeAdapter homeAdapter;
+
+    private SpringView springView;
+    private LinearLayout llTitleBar1;
+    private TextView tvLocation;
+    private TextView tvSearch01;
+    private LinearLayout llTopLayout;
+    private LinearLayout llTitleBar2;
+    private LinearLayout llTitleBar2Left;
+    private CheckBox cbCategory;
+    private CheckBox cbOrderby;
+    private TextView llTitleBar2Right;
+    private LinearLayout llPopRoot01;
+    private LinearLayout llPopContent01Category;
+    private ListView lvCategory01;
+    private ListView lvCategory02;
+    private LinearLayout llPopRoot02;
+    private LinearLayout llPopContent02OrderBy;
+    private ListView lvOrderBy;
 
     @Override
     public int getLayoutRes() {
@@ -37,6 +59,25 @@ public class MainFragment1 extends BaseFragment
 
     @Override
     public void initView() {
+        springView = (SpringView) findView(R.id.spring_view);
+        recyclerView = (RecyclerView) findView(R.id.recycler_view);
+        llTitleBar1 = (LinearLayout) findView(R.id.ll_title_bar1);
+        tvLocation = (TextView) findView(R.id.tv_location);
+        tvSearch01 = (TextView) findView(R.id.tv_search_01);
+        llTopLayout = (LinearLayout) findView(R.id.ll_top_layout);
+        llTitleBar2 = (LinearLayout) findView(R.id.ll_title_bar2);
+        llTitleBar2Left = (LinearLayout) findView(R.id.ll_title_bar2_left);
+        cbCategory = (CheckBox) findView(R.id.cb_category);
+        cbOrderby = (CheckBox) findView(R.id.cb_orderby);
+        llTitleBar2Right = (TextView) findView(R.id.ll_title_bar2_right);
+        llPopRoot01 = (LinearLayout) findView(R.id.ll_pop_root_01);
+        llPopContent01Category = (LinearLayout) findView(R.id.ll_pop_content_01_category);
+        lvCategory01 = (ListView) findView(R.id.lv_category_01);
+        lvCategory02 = (ListView) findView(R.id.lv_category_02);
+        llPopRoot02 = (LinearLayout) findView(R.id.ll_pop_root_02);
+        llPopContent02OrderBy = (LinearLayout) findView(R.id.ll_pop_content_02_order_by);
+        lvOrderBy = (ListView) findView(R.id.lv_order_by);
+        
         initRecyclerView();
     }
 
@@ -100,16 +141,21 @@ public class MainFragment1 extends BaseFragment
             // showToast("显示首页数据：" + home);
             // 显示首页数据
             listData.add(home);
-            homeAdapter.setDatas(listData);
+            // homeAdapter.setDatas(listData);
 
-            // mProtocol.getShopList(this, 1, 10, 0, 0);
-            // presenter.getShopList(1, 10, 0, 0);
+            // 加载商家列表数据
+            // mProtocol.getShopList(this, 0, 0);
+            presenter.getShopList();
             return;
         }
 
         if (reqType == IHttpService.TYPE_SHOP_LIST) {
-            ShopList bean = (ShopList) msg.obj;
-            showToast("商家数据：" + bean.getShopList().size());
+            ArrayList pageDatas = (ArrayList) msg.obj;
+            // showToast("商家数据：" + bean.getShopList().size());
+            // pageDatas: 10个商家+1则广告
+            listData.addAll(pageDatas);
+            // 刷新列表显示
+            homeAdapter.setDatas(listData);
             return;
         }
     }
