@@ -184,7 +184,7 @@ public class HomeShopHolder extends BaseHolderRV {
             param.height = itemHeight * tempCount;
         }
 
-        // 选清除之前的活动显示
+        // 先清除之前的活动显示
         llActivityList.removeAllViews();
         for (ShopList.ShopListBean.ActivityListBean activity : activityList) {
             View item = Global.inflate(R.layout.item_activity, llActivityList);

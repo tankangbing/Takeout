@@ -30,8 +30,6 @@ public class Global {
 	public static float mScreenWidth;
 	public static float mScreenHeight;
 
-	private static View mStatusBarView;
-
 	public static void init(Context context) {
 		mContext = context;
 		initScreenSize();
@@ -107,6 +105,8 @@ public class Global {
 
 
 	//=============沉侵式==(begin)=================
+	private static View mStatusBarView;
+
 	/** 设置全屏沉侵式效果 */
 	public static void setNoStatusBarFullMode(Activity activity) {
 		// sdk 4.4

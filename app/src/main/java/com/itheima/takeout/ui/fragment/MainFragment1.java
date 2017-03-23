@@ -1,9 +1,11 @@
 package com.itheima.takeout.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -16,8 +18,6 @@ import com.itheima.takeout.R;
 import com.itheima.takeout.dagger2.component.DaggerMainFragment1Component;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
 import com.itheima.takeout.model.bean.Home;
-import com.itheima.takeout.model.bean.ShopList;
-import com.itheima.takeout.model.protocol.CommonProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
@@ -61,6 +61,9 @@ public class MainFragment1 extends BaseFragment {
         return R.layout.fragment_01;
     }
 
+    private int mTitleBar2LeftWidth = Global.dp2px(100);
+    private int mTitleBar2RightWidth = (int) (Global.mScreenWidth - Global.dp2px(100));
+
     @Override
     public void initView() {
         springView = (SpringView) findView(R.id.spring_view);
@@ -69,11 +72,8 @@ public class MainFragment1 extends BaseFragment {
         tvLocation = (TextView) findView(R.id.tv_location);
         tvSearch01 = (TextView) findView(R.id.tv_search_01);
         llTopLayout = (LinearLayout) findView(R.id.ll_top_layout);
-        llTitleBar2 = (LinearLayout) findView(R.id.ll_title_bar2);
-        llTitleBar2Left = (LinearLayout) findView(R.id.ll_title_bar2_left);
         cbCategory = (CheckBox) findView(R.id.cb_category);
         cbOrderby = (CheckBox) findView(R.id.cb_orderby);
-        llTitleBar2Right = (TextView) findView(R.id.ll_title_bar2_right);
         llPopRoot01 = (LinearLayout) findView(R.id.ll_pop_root_01);
         llPopContent01Category = (LinearLayout) findView(R.id.ll_pop_content_01_category);
         lvCategory01 = (ListView) findView(R.id.lv_category_01);
@@ -81,12 +81,21 @@ public class MainFragment1 extends BaseFragment {
         llPopRoot02 = (LinearLayout) findView(R.id.ll_pop_root_02);
         llPopContent02OrderBy = (LinearLayout) findView(R.id.ll_pop_content_02_order_by);
         lvOrderBy = (ListView) findView(R.id.lv_order_by);
-        
+
+        // 标题栏2
+        llTitleBar2 = (LinearLayout) findView(R.id.ll_title_bar2);
+        llTitleBar2Left = (LinearLayout) findView(R.id.ll_title_bar2_left);
+        llTitleBar2Right = (TextView) findView(R.id.ll_title_bar2_right);
+        // 隐藏左右两部分
+        llTitleBar2Left.setTranslationX(-mTitleBar2LeftWidth);
+        llTitleBar2Right.setTranslationX(mTitleBar2RightWidth);
+
         initRecyclerView();
         initSpringView();
     }
 
     private void initSpringView() {
+        // springView.setHeader(new BaiduHeader(mActivity));
         springView.setHeader(new MeituanHeader(mActivity));
         springView.setFooter(new MeituanFooter(mActivity));
         springView.setType(SpringView.Type.FOLLOW);
@@ -136,7 +145,8 @@ public class MainFragment1 extends BaseFragment {
     /**  recyclerView垂直方向滚动的距离 */
     private int mDistance;
     private int mRageHeight = Global.dp2px(150);
-
+    // 标题栏2隐藏状态
+    private boolean mTitleBar2Show = false;
     @Override
     public void initListener() {
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -156,9 +166,52 @@ public class MainFragment1 extends BaseFragment {
                     tvSearch01.setAlpha(1 - percent);
                 }
 
-                // (2)
+                // (2) 标题栏2的显示与隐藏
+                if (!mTitleBar2Show && mDistance > mRageHeight) {
+                    // 隐藏 -> 显示
+                    mTitleBar2Show = true;
+                    showTitleBar2();
+                    // 状态栏设为黑包
+                    Global.setStatusBarColor(mActivity, Color.BLACK);
+
+                } else if (mTitleBar2Show && mDistance < mRageHeight) {
+                    // 显示 -> 隐藏
+                    mTitleBar2Show = false;
+                    hideTitleBar2();
+
+                    // 状态栏透明
+                    Global.getMainHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Global.setNoStatusBarFullMode(mActivity);
+                        }
+                    }, 300);
+                }
             }
         });
+    }
+
+    // 显示标题栏2
+    private void showTitleBar2() {
+        llTitleBar2.setVisibility(View.VISIBLE);
+        llTitleBar2Left.animate().translationX(0)
+                .setInterpolator(new OvershootInterpolator(1)).setDuration(300);
+        llTitleBar2Right.animate().translationX(0)
+                .setInterpolator(new OvershootInterpolator(1)).setDuration(300);
+    }
+
+    // 隐藏标题栏2
+    private void hideTitleBar2() {
+        llTitleBar2Left.animate().translationX(-mTitleBar2LeftWidth)
+                .setInterpolator(new OvershootInterpolator(1)).setDuration(300);
+        llTitleBar2Right.animate().translationX(mTitleBar2RightWidth)
+                .setInterpolator(new OvershootInterpolator(1)).setDuration(300);
+        Global.getMainHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                llTitleBar2.setVisibility(View.GONE);
+            }
+        }, 300);
     }
 
     @Inject

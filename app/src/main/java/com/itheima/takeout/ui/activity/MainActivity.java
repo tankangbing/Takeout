@@ -58,6 +58,9 @@ public class MainActivity extends BaseActivity {
         llTabLayout = findView(R.id.ll_tab_layout);
         viewPager = findView(R.id.view_pager);
 
+        // 状态栏透明
+        Global.setNoStatusBarFullMode(this);
+
         initTab();
         initViewPager();
     }
