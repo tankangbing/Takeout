@@ -14,6 +14,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /** Retrofit接口 */
 public interface IHttpService {
@@ -24,6 +25,7 @@ public interface IHttpService {
     int TYPE_SHOP_LIST = 1;
     int TYPE_SHOP_CATEGORY = 2;
     int TYPE_ORDER_BY = 3;
+    int TYPE_SHOP_DETAIL = 4;
 
     @GET("home")
     Call<JsonObject> getHomeData();
@@ -33,6 +35,9 @@ public interface IHttpService {
 
     @GET("orderBy")
     Call<JsonObject> getOrderBy();
+
+    @GET("shopDetail")
+    Call<JsonObject> getShopDetail(@Query("shopId") int shopId);
 
     @POST("shopList")
     @FormUrlEncoded

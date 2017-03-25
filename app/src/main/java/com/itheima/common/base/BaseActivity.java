@@ -155,6 +155,8 @@ public abstract class BaseActivity extends AppCompatActivity
 	// 网络请求失败
 	@Override
 	public void onHttpError(int reqType, String error) {
+		// 提示出错对话框
+		showDialog("提示", error);
 	}
 }
 

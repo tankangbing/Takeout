@@ -4,6 +4,7 @@ import com.itheima.common.base.Const;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.OrderBy;
 import com.itheima.takeout.model.bean.ShopCategory;
+import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.model.bean.ShopList;
 
 import java.util.HashMap;
@@ -27,6 +28,16 @@ public class CommonProtocol extends BaseProtocol {
     public void getOrderBy(final OnHttpCallback callback) {
         super.execute(super.getHttpService().getOrderBy(),
                 callback, IHttpService.TYPE_ORDER_BY, OrderBy.class);
+    }
+
+
+    /**
+     * 获取商家的所有商品及对应类别
+     *  shopId : 商家id
+     */
+    public void getShopDetail(final OnHttpCallback callback, int shopId) {
+        super.execute(super.getHttpService().getShopDetail(shopId),
+                callback, IHttpService.TYPE_SHOP_DETAIL, ShopDetail.class);
     }
 
     /** 获取商家类别 */
