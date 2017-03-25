@@ -1,5 +1,6 @@
 package com.itheima.takeout.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -285,7 +286,7 @@ public class ShopList {
         }
     }
 
-    public static class ShopListBean {
+    public static class ShopListBean implements Serializable{
         /**
          * activityList : [{"detail":"",
          * "icon":"http://10.0.3.2:8080/TakeoutService/imgs/goods/activity_1.png",
@@ -477,7 +478,7 @@ public class ShopList {
             this.activityList = activityList;
         }
 
-        public static class ActivityListBean {
+        public static class ActivityListBean implements Serializable{
             /**
              * detail :
              * icon : http://10.0.3.2:8080/TakeoutService/imgs/goods/activity_1.png

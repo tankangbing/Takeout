@@ -17,9 +17,6 @@ import java.util.Map;
  */
 public class CommonProtocol extends BaseProtocol {
 
-    public CommonProtocol() {
-    }
-
     /** 获取首页数据 */
     public void getHomeData(final OnHttpCallback callback) {
         super.execute(super.getHttpService().getHomeData(),

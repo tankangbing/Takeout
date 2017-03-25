@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * @author WJQ
  */
-
 public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragments;

@@ -61,4 +61,11 @@ dependencies {
     // 图片请求picasso
     compile 'com.squareup.picasso:picasso:2.3.2'
 
+    // 底部弹窗
+    compile 'com.flipboard:bottomsheet-commons:1.5.1'
+    compile 'com.flipboard:bottomsheet-core:1.5.1'
+
+    // 带头部固定的ListView
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
+
 }

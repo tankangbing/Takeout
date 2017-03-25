@@ -2,6 +2,7 @@ package com.itheima.takeout.ui.holder;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,12 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
 import com.itheima.common.ui.BaseAdapterRV;
 import com.itheima.common.ui.BaseHolderRV;
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopList;
+import com.itheima.takeout.ui.activity.ShopDetailActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -198,5 +201,14 @@ public class HomeShopHolder extends BaseHolderRV {
             // 动态加载活动选项
             llActivityList.addView(item);
         }
+    }
+
+    // 列表项点击事件
+    @Override
+    protected void onItemClick(View itemView, int position, Object bean) {
+        ShopList.ShopListBean shop = (ShopList.ShopListBean) bean;
+        Intent intent = new Intent(context, ShopDetailActivity.class);
+        intent.putExtra(Const.KEY_BEAN, shop);
+        context.startActivity(intent);
     }
 }

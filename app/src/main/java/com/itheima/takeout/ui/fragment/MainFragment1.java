@@ -16,7 +16,6 @@ import com.itheima.common.base.BaseFragment;
 import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
-import com.itheima.takeout.dagger2.component.DaggerMainFragment1Component;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.OrderBy;
@@ -347,11 +346,11 @@ public class MainFragment1 extends BaseFragment {
         // mProtocol = new CommonProtocol();
         // mProtocol.getHomeData(this);
 
-        // presenter = new HomeFragment1Presenter(this);
-        // 注入并初始化presenter对象
-        DaggerMainFragment1Component.builder()
-                .mainFragment1Module(new MainFragment1Module(this))
-                .build().inject(this);
+         presenter = new HomeFragment1Presenter(this);
+         // 注入并初始化presenter对象
+//        DaggerMainFragment1Component.builder()
+//                .mainFragment1Module(new MainFragment1Module(this))
+//                .build().inject(this);
 
         presenter.getHomeData();
         presenter.getShopCategoryData();
@@ -446,7 +445,6 @@ public class MainFragment1 extends BaseFragment {
 
         if (reqType == IHttpService.TYPE_ORDER_BY) {
             OrderBy bean = (OrderBy) msg.obj;
-            showToast("orderBy: " + bean.getOrderByList());
             mOrderByAdapter.setDatas(bean.getOrderByList());
             return;
         }
