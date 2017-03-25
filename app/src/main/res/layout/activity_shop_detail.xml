@@ -269,6 +269,6 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/btn_add_normal"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
 </RelativeLayout>

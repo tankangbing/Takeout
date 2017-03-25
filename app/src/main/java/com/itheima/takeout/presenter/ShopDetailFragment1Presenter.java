@@ -5,6 +5,7 @@ import android.os.Message;
 import com.itheima.takeout.base.BasePresenter;
 import com.itheima.takeout.base.BaseView;
 import com.itheima.takeout.model.bean.ShopDetail;
+import com.itheima.takeout.model.bean.local.CartInfo;
 import com.itheima.takeout.model.bean.local.ShopGoods;
 import com.itheima.takeout.model.protocol.BaseProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
@@ -41,6 +42,25 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
     private ArrayList<ShopDetail.CategoryBean> mAllCategory;
     /** 右列表显示的数据：某商家所有的商品 */
     private ArrayList<ShopDetail.CategoryBean.GoodsBean> mAllGoods;
+
+    /**
+     * 获取购物车总金额与总数量
+     * @return
+     */
+    public CartInfo getCartInfo() {
+        int count = 0;
+        float amount = 0;
+        if (mAllGoods != null) {
+            for (ShopDetail.CategoryBean.GoodsBean goods : mAllGoods) {
+                if (goods.mBuyCount > 0) {
+                    count += goods.mBuyCount;
+                    // 一件商品的购买金额
+                    amount += goods.mBuyCount * goods.getNewPrice();
+                }
+            }
+        }
+        return new CartInfo(count, amount);
+    };
 
     /**
      * 计算左侧列表第几个列表项的类别id是categoryId

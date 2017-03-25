@@ -1,11 +1,15 @@
 package com.itheima.takeout.ui.activity;
 
+import android.animation.Animator;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,8 +20,10 @@ import android.widget.TextView;
 import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
+import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopList;
+import com.itheima.takeout.model.bean.local.CartInfo;
 import com.itheima.takeout.ui.adapter.MyFragmentAdapter;
 import com.itheima.takeout.ui.fragment.ShopDetailFragment1;
 import com.itheima.takeout.ui.fragment.ShopDetailFragment2;
@@ -81,15 +87,18 @@ public class ShopDetailActivity extends BaseActivity {
         tvShopInfo = (TextView) findViewById(R.id.tv_shop_info);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        llBottomCardLayout01 = (LinearLayout) findViewById(R.id.ll_bottom_card_layout_01);
-        tvSendPrice = (TextView) findViewById(R.id.tv_send_price);
-        llBottomCardLayout02 = (LinearLayout) findViewById(R.id.ll_bottom_card_layout_02);
-        tvAmount = (TextView) findViewById(R.id.tv_amount);
-        tvDeliveryFee = (TextView) findViewById(R.id.tv_delivery_fee);
-        tvSubmit = (TextView) findViewById(R.id.tv_submit);
-        flMycartZoom = (FrameLayout) findViewById(R.id.fl_mycart_zoom);
-        tvSelectCount = (TextView) findViewById(R.id.tv_select_count);
         ibPlus = (ImageButton) findViewById(R.id.ib_plus);
+
+        // 底部购物车相关的布局
+        flMycartZoom = (FrameLayout) findViewById(R.id.fl_mycart_zoom);
+        llBottomCardLayout01 = (LinearLayout) findViewById(R.id.ll_bottom_card_layout_01);
+        llBottomCardLayout02 = (LinearLayout) findViewById(R.id.ll_bottom_card_layout_02);
+
+        tvAmount = (TextView) findViewById(R.id.tv_amount);
+        tvSendPrice = (TextView) findViewById(R.id.tv_send_price);
+        tvDeliveryFee = (TextView) findViewById(R.id.tv_delivery_fee);
+        tvSelectCount = (TextView) findViewById(R.id.tv_select_count);
+        tvSubmit = (TextView) findViewById(R.id.tv_submit);
 
         initTitleBar();
         initViewPager();
@@ -151,6 +160,108 @@ public class ShopDetailActivity extends BaseActivity {
 
     @Override
     public void onClick(View v, int id) {
+    }
 
+    /**更新购物车总金额和总数量*/
+    public void updateShoppingCartUI() {
+        // 获取总金额和总数量
+        CartInfo cartInfo = shopDetailFragment1
+                .getPresenter().getCartInfo();
+
+        // 购物车中有商品
+        if (cartInfo != null && cartInfo.mGoodsCount > 0) {
+            llBottomCardLayout01.setVisibility(View.GONE);
+            llBottomCardLayout02.setVisibility(View.VISIBLE);
+            flMycartZoom.setVisibility(View.VISIBLE);
+
+            // 总金额
+            tvAmount.setText("共￥" + cartInfo.mTotalAmount);
+            tvSelectCount.setText("" + cartInfo.mGoodsCount);
+            tvSelectCount.setText("" + cartInfo.mGoodsCount);
+            String deliveryInfo = mShop.getDeliveryFee() > 0 ?
+                    "另需配送费"+ mShop.getDeliveryFee() +"元" : "免配送费";
+            tvDeliveryFee.setText(deliveryInfo);
+
+            // 起送价显示
+            if (cartInfo.mTotalAmount > mShop.getSendPrice()) { // 大于起送价, 选好了
+                tvSubmit.setText("选好了");
+                tvSubmit.setBackgroundColor(getResources().getColor(R.color.title_bar_bg));
+                tvSubmit.setEnabled(true);
+            } else { // 没有达到起送价
+                tvSubmit.setText("还差"+ (mShop.getSendPrice() - cartInfo.mTotalAmount) +"元起送");
+                tvSubmit.setBackgroundColor(Color.TRANSPARENT);
+                tvSubmit.setEnabled(false);
+            }
+        } else {
+            llBottomCardLayout01.setVisibility(View.VISIBLE);
+            llBottomCardLayout02.setVisibility(View.GONE);
+            flMycartZoom.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 执行点击了加号按钮的抛物线动画
+     * @param start 抛物线执行的开始位置
+     */
+    public void doBtnPlusAnimation(int[] start) {
+        ibPlus.setVisibility(View.VISIBLE);
+        // 设置加号的开始位置
+        ibPlus.setTranslationX(start[0]);
+        // 状态栏高度
+        ibPlus.setTranslationY(start[1] - Global.dp2px(24));
+
+        // 动画执行的结束位置
+        int[] end = new int[2];
+        flMycartZoom.getLocationInWindow(end);
+
+        // 执行水平向左移动的动画: 匀速
+        ibPlus.animate()
+                .translationX(end[0])
+                .setInterpolator(new LinearInterpolator())
+                .setDuration(400).start();
+
+        // 执行垂直向下移动的动画： 加速: Accelerate
+        ibPlus.animate()
+                .translationY(end[1])
+                .setInterpolator(new AccelerateInterpolator())
+                .setDuration(400)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+
+                    @Override   // 抛物线动画执行结束
+                    public void onAnimationEnd(Animator animation) {
+                        // 隐藏加号
+                        ibPlus.setVisibility(View.GONE);
+                        // 左下角购物车图标的先放大再缩小的动画
+                        flMycartZoom.animate().scaleX(1.1f).scaleY(1.1f).setDuration(200);
+                        Global.getMainHandler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() { // 还原原来的大小
+                                flMycartZoom.animate().scaleX(1f).scaleY(1f).setDuration(200);
+                            }
+                        }, 200);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                }).start();
     }
 }
+
+
+
+
+
+
+
+
+
+
+

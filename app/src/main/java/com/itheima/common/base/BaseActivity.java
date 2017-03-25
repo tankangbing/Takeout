@@ -137,7 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity
 		showDialog("", message, null);
 	}
 
-	/** 对话框点击回调 */
+    /** 对话框点击回调 */
 	public interface OnDialogClickListener {
 
 		/** 确定 */

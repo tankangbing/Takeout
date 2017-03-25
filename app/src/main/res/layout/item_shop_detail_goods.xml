@@ -53,9 +53,8 @@
             android:text="月售137份  |  好评率 100%"
             android:textSize="12sp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:gravity="center_vertical"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
@@ -65,6 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="￥30"
+                android:layout_centerVertical="true"
                 android:textColor="@color/item_text_price"
                 android:textSize="14sp"/>
 
@@ -73,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/tv_new_price"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/tv_new_price"
                 android:text="￥60"
@@ -83,6 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:gravity="right|center"
                 android:orientation="horizontal">
 
@@ -114,7 +117,7 @@
                     android:layout_marginRight="10dp"
                     android:background="@drawable/selector_btn_add"/>
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>

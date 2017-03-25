@@ -18,6 +18,7 @@ import com.itheima.common.ui.BaseHolderRV;
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopDetail;
+import com.itheima.takeout.ui.activity.ShopDetailActivity;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -96,8 +97,15 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
         }
 
         // （3）更新购物车总金额和总数量
+        ((ShopDetailActivity) context).updateShoppingCartUI();
 
         // （4）加号的抛物线动画和左下角购物车图标的缩放动画
+        // 抛物线动画的开始位置
+        int[] start = new int[2];
+        // 获取ibPlus控件在窗口中的位置
+        ibPlus.getLocationInWindow(start);
+        // 执行点击了加号按钮的抛物线动画
+        ((ShopDetailActivity) context).doBtnPlusAnimation(start);
 
         // （5）数据缓存
     }
