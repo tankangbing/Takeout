@@ -63,6 +63,24 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
     };
 
     /**
+     * 获取添加到购物车中的所有的商品
+     * @return
+     */
+    public ArrayList<ShopDetail.CategoryBean.GoodsBean> getAllShoppingCartGoods() {
+        ArrayList<ShopDetail.CategoryBean.GoodsBean> allCartGoods = new ArrayList<>();
+        // 没有商品
+        if (mAllGoods == null || mAllGoods.size() < 1) {
+            return allCartGoods;
+        }
+        for (ShopDetail.CategoryBean.GoodsBean goods : mAllGoods) {
+            if (goods.mBuyCount > 0) {  // 有添加到购物车
+                allCartGoods.add(goods);
+            }
+        }
+        return allCartGoods;
+    };
+
+    /**
      * 计算左侧列表第几个列表项的类别id是categoryId
      * @param categoryId
      * @return

@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,8 +23,10 @@ import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
+import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.bean.local.CartInfo;
+import com.itheima.takeout.ui.adapter.CartGoodsAdapter;
 import com.itheima.takeout.ui.adapter.MyFragmentAdapter;
 import com.itheima.takeout.ui.fragment.ShopDetailFragment1;
 import com.itheima.takeout.ui.fragment.ShopDetailFragment2;
@@ -62,6 +65,7 @@ public class ShopDetailActivity extends BaseActivity {
     private ImageButton ibPlus;
 
     private ShopDetailFragment1 shopDetailFragment1;
+    private int mColor;
 
     public ShopDetailFragment1 getFragment1() {
         return shopDetailFragment1;
@@ -143,14 +147,16 @@ public class ShopDetailActivity extends BaseActivity {
 
     private void initTitleBar() {
         // 设置背景颜色
-        int mColor = getResources().getColor(R.color.shop_detail_bg_01 + new Random().nextInt(4));
+        mColor = getResources().getColor(R.color.shop_detail_bg_01 + new Random().nextInt(4));
         rlTitleBar.setBackgroundColor(mColor);
         super.setPageTitle(mShop.getName());
     }
 
     @Override
     public void initListener() {
-
+        // 购物车弹窗
+        llBottomCardLayout02.setOnClickListener(this);
+        flMycartZoom.setOnClickListener(this);
     }
 
     @Override
@@ -160,6 +166,39 @@ public class ShopDetailActivity extends BaseActivity {
 
     @Override
     public void onClick(View v, int id) {
+        // 购物车弹窗或隐藏
+        if (v == flMycartZoom || v == llBottomCardLayout02) {
+            showOrHideCartLayout();
+            return;
+        }
+    }
+
+    private LinearLayout llPopTitleBar;
+    private TextView tvClearCart;
+    private ListView listView;
+
+    /**
+     * 购物车弹窗或隐藏
+     */
+    private void showOrHideCartLayout() {
+        // 弹出来的购物车布局
+        if (bottomSheepLayout.isSheetShowing()) { // 显示 -> 隐藏
+            bottomSheepLayout.dismissSheet();
+        } else {    // 隐藏 -> 显示
+            View cartPopLayout = Global.inflate(R.layout.layout_pop_cart);
+
+            llPopTitleBar = (LinearLayout) cartPopLayout.findViewById(R.id.ll_pop_title_bar);
+            tvClearCart = (TextView) cartPopLayout.findViewById(R.id.tv_clear_cart);
+            llPopTitleBar.setBackgroundColor(mColor);
+            listView = (ListView) cartPopLayout.findViewById(R.id.list_view);
+
+            // 获取购物车中所有的商品
+            ArrayList<ShopDetail.CategoryBean.GoodsBean> allShoppingCartGoods =
+                    shopDetailFragment1.getPresenter().getAllShoppingCartGoods();
+            listView.setAdapter(new CartGoodsAdapter(this, allShoppingCartGoods));
+
+            bottomSheepLayout.showWithSheetView(cartPopLayout);
+        }
     }
 
     /**更新购物车总金额和总数量*/
@@ -207,7 +246,7 @@ public class ShopDetailActivity extends BaseActivity {
         ibPlus.setVisibility(View.VISIBLE);
         // 设置加号的开始位置
         ibPlus.setTranslationX(start[0]);
-        // 状态栏高度
+        // 状态栏高度： 24dp
         ibPlus.setTranslationY(start[1] - Global.dp2px(24));
 
         // 动画执行的结束位置

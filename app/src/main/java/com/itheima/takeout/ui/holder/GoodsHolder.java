@@ -112,6 +112,28 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
 
     /** 点击了列表项减号按钮 */
     private void onBtnMinusClick() {
+        // （1）更新点击的商品的数量
+        int count = --super.bean.mBuyCount;     // 购买数量减一
+        tvBuyCount.setText(count + "");
+
+        if (count == 0) {
+            // （2）数量从1到0时, 隐藏减号
+            Global.getMainHandler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ibMinus.setVisibility(View.GONE);
+                    tvBuyCount.setVisibility(View.GONE);
+                }
+            }, 300);
+            // 向右移动的动画
+            ibMinus.animate().translationX(Global.dp2px(55)).rotation(0);
+            tvBuyCount.animate().translationX(Global.dp2px(30)).rotation(0);
+        }
+
+        // （3）更新购物车总金额和总数量
+        ((ShopDetailActivity) context).updateShoppingCartUI();
+
+        // （4）数据缓存
 
     }
 
