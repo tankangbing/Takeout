@@ -92,6 +92,10 @@ public class MainFragment1 extends BaseFragment {
         lvCategory02 = (ListView) findView(R.id.lv_category_02);
         lvOrderBy = (ListView) findView(R.id.lv_order_by);
 
+        // 设置顶部padding, 否则沉侵式显示有问题
+        Global.setStatusBarPadding(llTitleBar1);
+        Global.setStatusBarPadding(llTopLayout);
+
         // 不显示分割线
         lvCategory01.setDividerHeight(0);
         lvCategory02.setDividerHeight(0);

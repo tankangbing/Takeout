@@ -25,4 +25,21 @@ public class GoodsCategoryAdapter extends BaseAdapterRV<ShopDetail.CategoryBean>
             Context context, ViewGroup parent, int viewType) {
         return new GoodsCategoryHolder(context, parent, this, viewType);
     }
+
+    /** 当前列表中第几项选中 */
+    private int mCurrentPosition;
+
+    /** 获取当前选中的列表项位置 */
+    public int getCurrentPosition() {
+        return mCurrentPosition;
+    }
+
+    /**
+     * 选中指定的位置，选中后会高亮
+     * @param currentPosition 要选中的列表项位置
+     */
+    public void checkPosition(int currentPosition) {
+        this.mCurrentPosition = currentPosition;
+        notifyDataSetChanged(); // 刷新列表显示
+    }
 }

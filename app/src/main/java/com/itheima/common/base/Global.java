@@ -134,6 +134,7 @@ public class Global {
 	/** 设置控件的paddingTop, 使它不被StatusBar覆盖 */
 	public static void setStatusBarPadding(View view) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			// marginTop： 状态栏的高度
 			int marginTop = getStatusBarHeight(view.getContext());
 			view.setPadding(view.getPaddingLeft(), marginTop,
 					view.getPaddingRight(), view.getPaddingBottom());

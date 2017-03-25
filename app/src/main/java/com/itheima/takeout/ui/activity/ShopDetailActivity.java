@@ -54,7 +54,12 @@ public class ShopDetailActivity extends BaseActivity {
     private FrameLayout flMycartZoom;
     private TextView tvSelectCount;
     private ImageButton ibPlus;
+
     private ShopDetailFragment1 shopDetailFragment1;
+
+    public ShopDetailFragment1 getFragment1() {
+        return shopDetailFragment1;
+    }
 
     @Override
     public int getLayoutRes() {
@@ -91,7 +96,6 @@ public class ShopDetailActivity extends BaseActivity {
     }
 
     private void initViewPager() {
-
         final List<Fragment> fragments = new ArrayList<>();
 
         shopDetailFragment1 = new ShopDetailFragment1();

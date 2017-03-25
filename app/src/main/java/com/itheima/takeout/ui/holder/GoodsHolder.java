@@ -1,6 +1,8 @@
 package com.itheima.takeout.ui.holder;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.Paint;
 import android.view.PointerIcon;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +51,60 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
         tvSaleInfo = (TextView) item.findViewById(R.id.tv_sale_info);
         tvNewPrice = (TextView) item.findViewById(R.id.tv_new_price);
         tvOldPrice = (TextView) item.findViewById(R.id.tv_old_price);
-        ibMinus = (ImageButton) item.findViewById(R.id.ib_minus);
         tvBuyCount = (TextView) item.findViewById(R.id.tv_buy_count);
+
+        ibMinus = (ImageButton) item.findViewById(R.id.ib_minus);
         ibPlus = (ImageButton) item.findViewById(R.id.ib_plus);
 
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == ibPlus) {      // 点击加号
+                    onBtnPlusClick();
+                    return;
+                }
+
+                if (v == ibMinus) {      // 点击减号
+                    onBtnMinusClick();
+                    return;
+                }
+            }
+        };
+        ibMinus.setOnClickListener(listener);
+        ibPlus.setOnClickListener(listener);
+
         return item;
+    }
+
+    /** 点击了列表项加号按钮 */
+    private void onBtnPlusClick() {
+        // （1）更新点击的商品的数量
+        int count = ++super.bean.mBuyCount;     // 购买数量加一
+        tvBuyCount.setText(count + "");
+
+        if (count == 1) {
+            // （2）数量从0到1时,显示减号
+            ibMinus.setVisibility(View.VISIBLE);
+            tvBuyCount.setVisibility(View.VISIBLE);
+
+            // 设置减号开始位置
+            ibMinus.setTranslationX(Global.dp2px(55));
+            tvBuyCount.setTranslationX(Global.dp2px(30));
+            // 向左移动的动画
+            ibMinus.animate().translationX(0).rotation(360);
+            tvBuyCount.animate().translationX(0).rotation(360);
+        }
+
+        // （3）更新购物车总金额和总数量
+
+        // （4）加号的抛物线动画和左下角购物车图标的缩放动画
+
+        // （5）数据缓存
+    }
+
+    /** 点击了列表项减号按钮 */
+    private void onBtnMinusClick() {
+
     }
 
     // 显示列表项子控件
@@ -75,8 +126,20 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
         if (bean.isBargainPrice()) { // 特价商品
             tvOldPrice.setVisibility(View.VISIBLE);
             tvOldPrice.setText("￥" + bean.getOldPrice());
+            //中间横线
+            tvOldPrice.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
         } else {
             tvOldPrice.setVisibility(View.GONE);
+        }
+
+        // 显示购买数量
+        if (bean.mBuyCount > 0) {   // 有添加到购物车
+            ibMinus.setVisibility(View.VISIBLE);
+            tvBuyCount.setVisibility(View.VISIBLE);
+            tvBuyCount.setText("" + bean.mBuyCount);
+        } else {
+            ibMinus.setVisibility(View.GONE);
+            tvBuyCount.setVisibility(View.GONE);
         }
     }
 }

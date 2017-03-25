@@ -297,6 +297,7 @@ public class ShopDetail {
             this.goods = goods;
         }
 
+        /** 一件商品 */
         public static class GoodsBean {
             /**
              * bargainPrice : false
@@ -312,6 +313,9 @@ public class ShopDetail {
              * shopId : 1
              * tag : 0
              */
+
+            /** 添加到购物车的数量 */
+            public int mBuyCount;
 
             private boolean bargainPrice;
             private int categoryId;

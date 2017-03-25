@@ -43,6 +43,37 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
     private ArrayList<ShopDetail.CategoryBean.GoodsBean> mAllGoods;
 
     /**
+     * 计算左侧列表第几个列表项的类别id是categoryId
+     * @param categoryId
+     * @return
+     */
+    public int getRecyclerViewPosition(int categoryId) {
+        for (int i = 0; i < mAllCategory.size() ; i++) {
+            ShopDetail.CategoryBean categoryBean = mAllCategory.get(i);
+            if (categoryBean.getId() == categoryId) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 获取以categoryId作为类别id的列表项位置
+     * @param categoryId
+     * @return
+     */
+    public int getListViewPosition(int categoryId) {
+        for (int i = 0; i < mAllGoods.size(); i++) {
+            // 一个商品
+            ShopDetail.CategoryBean.GoodsBean goods = mAllGoods.get(i);
+            if (goods.getCategoryId() == categoryId) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * 转换数据结构后，再返回到界面，以方便在界面直接就能显示了
      * @param shopDetail
      * @return
