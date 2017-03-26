@@ -43,6 +43,18 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
     /** 右列表显示的数据：某商家所有的商品 */
     private ArrayList<ShopDetail.CategoryBean.GoodsBean> mAllGoods;
 
+    /** 清空购物车 */
+    public void clearShoppingCart() {
+        if (mAllGoods == null || mAllGoods.size() < 1)
+            return;
+
+        for (ShopDetail.CategoryBean.GoodsBean goods : mAllGoods) {
+            if (goods.mBuyCount > 0) {  // 有添加到购物车
+                goods.mBuyCount = 0;
+            }
+        }
+    }
+
     /**
      * 获取购物车总金额与总数量
      * @return

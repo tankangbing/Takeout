@@ -40,6 +40,10 @@ public class ShopDetailFragment1 extends BaseFragment {
     private GoodsCategoryAdapter mCategoryAdapter;
     private GoodsAdapter mGoodsAdapter;
 
+    public GoodsAdapter getRightAdapter() {
+        return mGoodsAdapter;
+    }
+
     public StickyListHeadersListView getListViewRight() {
         return mListViewRight;
     }

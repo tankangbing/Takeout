@@ -189,6 +189,28 @@ public class ShopDetailActivity extends BaseActivity {
 
             llPopTitleBar = (LinearLayout) cartPopLayout.findViewById(R.id.ll_pop_title_bar);
             tvClearCart = (TextView) cartPopLayout.findViewById(R.id.tv_clear_cart);
+            // 设置清空购物车点击事件
+            tvClearCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // （1）隐藏弹窗
+                    hideBottomSheetLayout();
+                    showToast("购物车已清空");
+
+                    // （2）清空购物商品（该商家所有商品的购买数量置为0）
+                    getFragment1().getPresenter().clearShoppingCart();
+
+                    // （3）刷新右侧列表
+                    getFragment1().getRightAdapter().notifyDataSetChanged();
+
+                    // （4）刷新底部总金额和总数量
+                    updateShoppingCartUI();
+
+                    // （5）更新数据库缓存
+
+                }
+            });
+
             llPopTitleBar.setBackgroundColor(mColor);
             listView = (ListView) cartPopLayout.findViewById(R.id.list_view);
 
@@ -291,6 +313,14 @@ public class ShopDetailActivity extends BaseActivity {
                     public void onAnimationRepeat(Animator animation) {
                     }
                 }).start();
+    }
+
+    /** 隐藏底部弹窗 */
+    public void hideBottomSheetLayout() {
+        // 显示 -> 隐藏
+        if (bottomSheepLayout.isSheetShowing()) {
+            bottomSheepLayout.dismissSheet();
+        }
     }
 }
 

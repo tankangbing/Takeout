@@ -12,6 +12,7 @@ import com.itheima.common.ui.BaseAdapterLV;
 import com.itheima.common.ui.BaseHolderLV;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopDetail;
+import com.itheima.takeout.ui.activity.ShopDetailActivity;
 
 /**
  * @author admin
@@ -39,11 +40,72 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
         tvName = (TextView) item.findViewById(R.id.tv_name);
         tvTypeAllPrice = (TextView) item.findViewById(R.id.tv_type_all_price);
         ll = (LinearLayout) item.findViewById(R.id.ll);
-        ibMinus = (ImageButton) item.findViewById(R.id.ib_minus);
         tvCartGoodsAmount = (TextView) item.findViewById(R.id.tv_cart_goods_amount);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v == ibPlus) {          // 点击加号
+                    onBtnPlusClick();
+                    return;
+                }
+
+                if (v == ibMinus) {         // 点击减号
+                    onBtnMinusClick();
+                    return;
+                }
+            }
+        };
+
+        ibMinus = (ImageButton) item.findViewById(R.id.ib_minus);
         ibPlus = (ImageButton) item.findViewById(R.id.ib_plus);
+        ibPlus.setOnClickListener(listener);
+        ibMinus.setOnClickListener(listener);
 
         return item;
+    }
+
+    /** 点击了加号 */
+    private void onBtnPlusClick() {
+        // （1）更新当前列表项金额和数量的显示
+        super.bean.mBuyCount++;
+        super.adapter.notifyDataSetChanged();
+
+        // （2）更新右侧商品列表显示
+        ((ShopDetailActivity) context).getFragment1()
+                .getRightAdapter().notifyDataSetChanged();
+
+        // （3）更新底部购物车数量和总金额的显示
+        ((ShopDetailActivity) context).updateShoppingCartUI();
+
+        // （4）更新数据库缓存
+    }
+
+    /** 点击了减号 */
+    private void onBtnMinusClick() {
+        // （1）更新当前列表项金额和数量的显示
+        super.bean.mBuyCount--;
+        super.adapter.notifyDataSetChanged();
+
+        // （2）更新右侧商品列表显示
+        ((ShopDetailActivity) context).getFragment1()
+                .getRightAdapter().notifyDataSetChanged();
+
+        // （3）更新底部购物车数量和总金额的显示
+        ((ShopDetailActivity) context).updateShoppingCartUI();
+
+        // （4）与删除一行与隐藏弹窗
+        if (super.bean.mBuyCount == 0) {
+            // 删除一行: 从列表数据集合中删除对应列表项的javabean
+            super.adapter.remove(super.bean);
+
+            // 购物车中没有商品，隐藏弹窗
+            if (super.adapter.getCount() < 1) {
+                ((ShopDetailActivity) context).hideBottomSheetLayout();
+            }
+        }
+
+        // （5）更新数据库缓存
     }
 
     @Override
@@ -53,7 +115,7 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
         // 购买数量
         tvCartGoodsAmount.setText("" + bean.mBuyCount);
         // 金额:  单价 * 购买数量
-        float ammount = bean.getNewPrice() * bean.mBuyCount;
-        tvTypeAllPrice.setText(ammount + "");
+        float amount = bean.getNewPrice() * bean.mBuyCount;
+        tvTypeAllPrice.setText(amount + "");
     }
 }
