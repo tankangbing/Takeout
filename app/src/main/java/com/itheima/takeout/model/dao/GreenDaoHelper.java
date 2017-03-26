@@ -1,4 +1,4 @@
-package com.itheima.takeout.db;
+package com.itheima.takeout.model.dao;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -9,6 +9,7 @@ import com.itheima.takeout.db.greendao.DaoSession;
 
 /**
  * GreenDao操作辅助类 (单例，格式相对固定)
+ * 作用： 创建数据库
  *
  * @author admin
  */

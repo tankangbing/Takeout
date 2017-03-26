@@ -17,6 +17,7 @@ import com.itheima.common.ui.BaseHolderLV;
 import com.itheima.common.ui.BaseHolderRV;
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
+import com.itheima.takeout.db.greendao.CartGoods;
 import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.ui.activity.ShopDetailActivity;
 import com.squareup.picasso.Picasso;
@@ -94,6 +95,17 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
             // 向左移动的动画
             ibMinus.animate().translationX(0).rotation(360);
             tvBuyCount.animate().translationX(0).rotation(360);
+
+            // （5）数据缓存: 新增一条记录
+            // 自增id     商品id    类别id     商家id    购买数量
+            CartGoods bean = new CartGoods(null, super.bean.getId(),
+                    super.bean.getCategoryId(), super.bean.getShopId(), 1);
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().save(bean);
+        } else {    // 1 -> 2
+            // （5）数据缓存: 更新记录，购买数量加1
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().increment(bean.getId());
         }
 
         // （3）更新购物车总金额和总数量
@@ -106,8 +118,6 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
         ibPlus.getLocationInWindow(start);
         // 执行点击了加号按钮的抛物线动画
         ((ShopDetailActivity) context).doBtnPlusAnimation(start);
-
-        // （5）数据缓存
     }
 
     /** 点击了列表项减号按钮 */
@@ -128,13 +138,18 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
             // 向右移动的动画
             ibMinus.animate().translationX(Global.dp2px(55)).rotation(0);
             tvBuyCount.animate().translationX(Global.dp2px(30)).rotation(0);
+
+            // （5）数据缓存: 删除数据库表中的一条记录
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().delete(bean.getId());
+        } else {
+            // （5）数据缓存: 购买商品数量减1
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().decrement(bean.getId());
         }
 
         // （3）更新购物车总金额和总数量
         ((ShopDetailActivity) context).updateShoppingCartUI();
-
-        // （4）数据缓存
-
     }
 
     // 显示列表项子控件

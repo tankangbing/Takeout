@@ -4,9 +4,11 @@ import android.os.Message;
 
 import com.itheima.takeout.base.BasePresenter;
 import com.itheima.takeout.base.BaseView;
+import com.itheima.takeout.db.greendao.CartGoods;
 import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.model.bean.local.CartInfo;
 import com.itheima.takeout.model.bean.local.ShopGoods;
+import com.itheima.takeout.model.dao.MyCartGoodsDao;
 import com.itheima.takeout.model.protocol.BaseProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
 
@@ -17,6 +19,16 @@ import java.util.List;
  * @author admin
  */
 public class ShopDetailFragment1Presenter extends BasePresenter {
+
+    private MyCartGoodsDao goodsDao = new MyCartGoodsDao();
+
+    public MyCartGoodsDao getGoodsDao() {
+        return goodsDao;
+    }
+
+    // 增
+    // 删
+    // 改
 
     public BaseProtocol.OnHttpCallback mCallback
             = new BaseProtocol.OnHttpCallback() {
@@ -135,6 +147,9 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
             mAllCategory.add(category);
         }
 
+        // 所有的购物车缓存: 购物车中所有的商品
+        List<CartGoods> allCartGoods = getGoodsDao().queryAll();
+
         // （2）获取某商家所有的商品
         mAllGoods = new ArrayList<>();
         for (ShopDetail.CategoryBean category : mAllCategory) {
@@ -145,6 +160,13 @@ public class ShopDetailFragment1Presenter extends BasePresenter {
                 good.setCategoryId(category.getId());
                 // 指定该商品所属的类别名称
                 good.setCategoryName(category.getName());
+
+                // 购物车缓存回显，购买数量
+                for (CartGoods cartGoodsBean : allCartGoods) {
+                    if (cartGoodsBean.getGoodsId() == good.getId()) {
+                        good.mBuyCount = cartGoodsBean.getCount();
+                    }
+                }
 
                 mAllGoods.add(good);
             }

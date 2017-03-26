@@ -16,6 +16,8 @@ import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.bean.local.ShopGoods;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.ShopDetailFragment1Presenter;
+import com.itheima.takeout.ui.activity.MainActivity;
+import com.itheima.takeout.ui.activity.ShopDetailActivity;
 import com.itheima.takeout.ui.adapter.GoodsAdapter;
 import com.itheima.takeout.ui.adapter.GoodsCategoryAdapter;
 
@@ -135,6 +137,9 @@ public class ShopDetailFragment1 extends BaseFragment {
             mCategoryAdapter.setDatas(bean.mAllCategory);
             // 刷新右侧列表显示
             mGoodsAdapter.setDatas(bean.mAllGoods);
+
+            // 刷新底部购物车金额与数量的显示
+            ((ShopDetailActivity) mActivity).updateShoppingCartUI();
             return;
         }
     }

@@ -206,8 +206,9 @@ public class ShopDetailActivity extends BaseActivity {
                     // （4）刷新底部总金额和总数量
                     updateShoppingCartUI();
 
-                    // （5）更新数据库缓存
-
+                    // （5）数据缓存: 清空该商家所有的商品
+                    getFragment1().getPresenter().getGoodsDao()
+                            .clear(mShop.getId());
                 }
             });
 

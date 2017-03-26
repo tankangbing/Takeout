@@ -1,6 +1,5 @@
 package com.itheima.takeout.model.dao;
 
-import com.itheima.takeout.db.GreenDaoHelper;
 import com.itheima.takeout.db.greendao.CartGoods;
 import com.itheima.takeout.db.greendao.CartGoodsDao;
 

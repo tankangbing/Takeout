@@ -78,7 +78,9 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
         // （3）更新底部购物车数量和总金额的显示
         ((ShopDetailActivity) context).updateShoppingCartUI();
 
-        // （4）更新数据库缓存
+        // （4）数据缓存: 更新记录，购买数量加1
+        ((ShopDetailActivity) context).getFragment1()
+                .getPresenter().getGoodsDao().increment(bean.getId());
     }
 
     /** 点击了减号 */
@@ -103,9 +105,15 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
             if (super.adapter.getCount() < 1) {
                 ((ShopDetailActivity) context).hideBottomSheetLayout();
             }
-        }
 
-        // （5）更新数据库缓存
+            // （5）数据缓存: 删除数据库表中的一条记录
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().delete(bean.getId());
+        } else {
+            // （5）数据缓存: 购买商品数量减1
+            ((ShopDetailActivity) context).getFragment1()
+                    .getPresenter().getGoodsDao().decrement(bean.getId());
+        }
     }
 
     @Override
