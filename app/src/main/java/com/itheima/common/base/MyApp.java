@@ -17,6 +17,6 @@ public class MyApp extends Application {
 		super.onCreate();
 		Global.init(this);
 
-		new DBTest().test();
+		// new DBTest().test();
 	}
 }
