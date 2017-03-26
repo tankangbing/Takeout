@@ -30,46 +30,49 @@ android {
 }
 
 
+//=======mob短信验证(begin)==============
+repositories{
+    flatDir{
+        dirs 'libs' // 就是你放aar的目录地址
+    }
+}
+//=======mob短信验证(end)================
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:cardview-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'
     compile 'com.android.support:recyclerview-v7:25.2.0'
-
     // 轮播图实现
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
-
     // springview: 下拉刷新和加载更多
     compile 'com.liaoinstan.springview:library:1.2.6'
-
     // Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-
     // Dagger2
     compile 'com.google.dagger:dagger:2.2'
     apt 'com.google.dagger:dagger-compiler:2.2'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
     // 图片请求picasso
     compile 'com.squareup.picasso:picasso:2.3.2'
-
     // 底部弹窗
     compile 'com.flipboard:bottomsheet-commons:1.5.1'
     compile 'com.flipboard:bottomsheet-core:1.5.1'
-
     // 带头部固定的ListView
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
-
     // GreenDao
     compile 'de.greenrobot:greendao:2.1.0'
     compile 'de.greenrobot:greendao-generator:2.1.0'
 
+    // Mod短信验证
+    compile files('libs/MobCommons-2016.1201.1839.jar')
+    compile files('libs/MobTools-2016.1201.1839.jar')
+    compile name: 'SMSSDK-2.1.3', ext: 'aar'
 }

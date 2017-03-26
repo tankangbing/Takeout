@@ -43,7 +43,7 @@ public class MainFragment4 extends BaseFragment {
     }
 
     /** 显示登录状态，根据登录状态显示不同的界面 */
-    private void checkLogin() {
+    public void checkLogin() {
         String token = SharedPreUtil.getString(mActivity, Const.SP_TOKEN, "");
         String userName = SharedPreUtil.getString(mActivity, Const.SP_USER_NAME, "");
 
@@ -73,21 +73,17 @@ public class MainFragment4 extends BaseFragment {
 
     /** 注销 */
     private void logout() {
+        // 清除token和用户名等相关信息
+        SharedPreUtil.saveString(mActivity, Const.SP_TOKEN, "");
+        SharedPreUtil.saveString(mActivity, Const.SP_USER_NAME, "");
+
+        // 重新刷新界面
+        checkLogin();
     }
 
     /** 进入登录界面*/
     private void enterLoginActivity() {
         Intent intent = new Intent(mActivity, LoginActivity.class);
         mActivity.startActivityForResult(intent, Const.REQUEST_CODE_MINE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (Const.REQUEST_CODE_MINE == requestCode) {
-            // 重新检测登录状态，并刷新界面
-            checkLogin();
-        }
     }
 }

@@ -2,6 +2,7 @@ package com.itheima.takeout.model.protocol;
 
 import com.itheima.common.base.Const;
 import com.itheima.takeout.model.bean.Home;
+import com.itheima.takeout.model.bean.Login;
 import com.itheima.takeout.model.bean.OrderBy;
 import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.bean.ShopDetail;
@@ -22,6 +23,13 @@ public class CommonProtocol extends BaseProtocol {
     public void getHomeData(final OnHttpCallback callback) {
         super.execute(super.getHttpService().getHomeData(),
                 callback, IHttpService.TYPE_HOME, Home.class);
+    }
+
+    /** 登录：使用电话号码登录 */
+    public void login(final OnHttpCallback callback, String phone) {
+        super.execute(super.getHttpService().login(
+                IHttpService.TYPE_LOGIN_PHONE, phone),
+                callback, IHttpService.TYPE_LOGIN, Login.class);
     }
 
     /** 获取商家排序条件数据 */

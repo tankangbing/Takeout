@@ -53,6 +53,7 @@ public class MainActivity extends BaseActivity {
     private LinearLayout llTabLayout;
     private ViewPager viewPager;
     private MainFragment1 mainFragment1;
+    private MainFragment4 mainFragment4;
 
     @Override
     public int getLayoutRes() {
@@ -74,10 +75,12 @@ public class MainActivity extends BaseActivity {
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
         mainFragment1 = new MainFragment1();
+        mainFragment4 = new MainFragment4();
+
         fragments.add(mainFragment1);
         fragments.add(new MainFragment2());
         fragments.add(new MainFragment3());
-        fragments.add(new MainFragment4());
+        fragments.add(mainFragment4);
 
         viewPager.setAdapter(new MyFragmentAdapter(
                 getSupportFragmentManager(), fragments));
@@ -165,6 +168,13 @@ public class MainActivity extends BaseActivity {
         if (requestCode == Const.REQUEST_CODE_MAIN_UI
                 && resultCode == Activity.RESULT_OK) {
             updateShopGoodsCount();
+            return;
+        }
+
+        if (Const.REQUEST_CODE_MINE == requestCode
+                && resultCode == Activity.RESULT_OK) {
+            // 重新检测登录状态，并刷新界面
+            mainFragment4.checkLogin();
         }
     }
 

@@ -21,14 +21,28 @@ public interface IHttpService {
 
     String HOST_URL = "http://" + Const.HOST_IP + ":8080/TakeoutService/";
 
+
+//    0: 账号密码登录
+//    1：手机号码登录
+//    2: 第三方应用登录
+    int TYPE_LOGIN_NORMAL = 0;
+    int TYPE_LOGIN_PHONE = 1;
+    int TYPE_LOGIN_THIRD_PART = 2;
+
     int TYPE_HOME = 0;
     int TYPE_SHOP_LIST = 1;
     int TYPE_SHOP_CATEGORY = 2;
     int TYPE_ORDER_BY = 3;
     int TYPE_SHOP_DETAIL = 4;
+    int TYPE_LOGIN = 4;
 
     @GET("home")
     Call<JsonObject> getHomeData();
+
+    @GET("login")
+    Call<JsonObject> login(
+            @Query("type") int type,
+            @Query("phone") String phone);
 
     @GET("shopCategory")
     Call<JsonObject> getShopCategory();
