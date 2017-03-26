@@ -1,14 +1,19 @@
 package com.itheima.takeout.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import com.itheima.common.base.BaseActivity;
+import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
 import com.itheima.common.ui.GradientTab;
 import com.itheima.takeout.R;
+import com.itheima.takeout.db.greendao.CartGoods;
+import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.ui.adapter.MyFragmentAdapter;
 import com.itheima.takeout.ui.fragment.MainFragment1;
 import com.itheima.takeout.ui.fragment.MainFragment2;
@@ -47,6 +52,7 @@ public class MainActivity extends BaseActivity {
 
     private LinearLayout llTabLayout;
     private ViewPager viewPager;
+    private MainFragment1 mainFragment1;
 
     @Override
     public int getLayoutRes() {
@@ -67,7 +73,8 @@ public class MainActivity extends BaseActivity {
 
     private void initViewPager() {
         List<Fragment> fragments = new ArrayList<>();
-        fragments.add(new MainFragment1());
+        mainFragment1 = new MainFragment1();
+        fragments.add(mainFragment1);
         fragments.add(new MainFragment2());
         fragments.add(new MainFragment3());
         fragments.add(new MainFragment4());
@@ -150,5 +157,44 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onClick(View v, int id) {
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Const.REQUEST_CODE_MAIN_UI
+                && resultCode == Activity.RESULT_OK) {
+            updateShopGoodsCount();
+        }
+    }
+
+    /** 刷新商家购物车商品数量 */
+    public void updateShopGoodsCount() {
+        showToast("update");
+        // 刷新列表商家的购物车商品数量
+        // 获取购物车中所有的商品
+
+        List<CartGoods> allCartGoods = mainFragment1
+                .getPresenter().getGoodsDao().queryAll();
+        List listData = mainFragment1.getListData();
+
+        for (int i = 0; i < listData.size(); i ++) {
+            Object bean = listData.get(i);
+            // 商家列表项，有可能是头部和广告
+            if (bean instanceof ShopList.ShopListBean) {
+                ShopList.ShopListBean shop = (ShopList.ShopListBean) bean;
+                int shopId = shop.getId();
+                int shopCount = 0;  // 该商家商品的缓存数量
+                // 遍历购物车缓存对象
+                for (CartGoods goods : allCartGoods) {
+                    if (goods.getShopId() == shopId) {
+                        shopCount += goods.getCount();
+                    }
+                }
+                shop.mBuyCount = shopCount;
+            }
+        }
+        mainFragment1.getHomeAdapter().notifyDataSetChanged();
     }
 }

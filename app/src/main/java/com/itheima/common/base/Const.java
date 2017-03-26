@@ -5,6 +5,9 @@ public class Const {
 	public static final String HOST_IP = "192.168.56.1";
     public static final String KEY_BEAN =  "data";
 
+    /** 请求码：主界面 */
+    public static final int REQUEST_CODE_MAIN_UI = 0;
+
     /** 下拉刷新 */
     public static int TYPE_REFRESH = 1;
     /** 加载更多 */

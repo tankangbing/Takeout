@@ -7,6 +7,7 @@ import com.itheima.takeout.base.BasePresenter;
 import com.itheima.takeout.base.BaseView;
 import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.bean.ShopList;
+import com.itheima.takeout.model.dao.MyCartGoodsDao;
 import com.itheima.takeout.model.protocol.BaseProtocol;
 import com.itheima.takeout.model.protocol.IHttpService;
 
@@ -22,6 +23,12 @@ public class HomeFragment1Presenter extends BasePresenter {
     private int mPageNo = 1;
     /** 每页多少条 */
     private int mPageCount = 10;
+
+    private MyCartGoodsDao goodsDao = new MyCartGoodsDao();
+
+    public MyCartGoodsDao getGoodsDao() {
+        return goodsDao;
+    }
 
     public BaseProtocol.OnHttpCallback mCallback
             = new BaseProtocol.OnHttpCallback() {

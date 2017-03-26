@@ -1,5 +1,6 @@
 package com.itheima.takeout.ui.holder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
     }
 
     @Override
-    public View onCreateView(Context context, ViewGroup parent) {
+    public View onCreateView(final Context context, ViewGroup parent) {
         View item = Global.inflate(R.layout.item_shopping_cart, parent);
 
         tvName = (TextView) item.findViewById(R.id.tv_name);
@@ -47,11 +48,15 @@ public class CartGoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsB
             public void onClick(View v) {
                 if (v == ibPlus) {          // 点击加号
                     onBtnPlusClick();
+                    // 设置结果码为RESULT_OK
+                    ((ShopDetailActivity) context).setResult(Activity.RESULT_OK);
                     return;
                 }
 
                 if (v == ibMinus) {         // 点击减号
                     onBtnMinusClick();
+                    // 设置结果码为RESULT_OK
+                    ((ShopDetailActivity) context).setResult(Activity.RESULT_OK);
                     return;
                 }
             }

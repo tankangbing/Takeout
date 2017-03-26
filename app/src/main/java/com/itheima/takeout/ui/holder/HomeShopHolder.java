@@ -19,6 +19,7 @@ import com.itheima.common.ui.BaseHolderRV;
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopList;
+import com.itheima.takeout.ui.activity.MainActivity;
 import com.itheima.takeout.ui.activity.ShopDetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -116,7 +117,15 @@ public class HomeShopHolder extends BaseHolderRV {
     @Override
     protected void onRefreshView(Object bean, int position) {
         ShopList.ShopListBean shop = (ShopList.ShopListBean) bean;
-        tvCartGoodsAmount.setVisibility(View.GONE);
+
+        // 显示商家购物车缓存商品数量
+        if (shop.mBuyCount > 0) {
+            tvCartGoodsAmount.setVisibility(View.VISIBLE);
+            tvCartGoodsAmount.setText("" + shop.mBuyCount);
+        } else {
+            tvCartGoodsAmount.setVisibility(View.GONE);
+        }
+
         // 显示标题
         tvTitle.setText(shop.getName());
         // 显示商家图标
@@ -209,6 +218,8 @@ public class HomeShopHolder extends BaseHolderRV {
         ShopList.ShopListBean shop = (ShopList.ShopListBean) bean;
         Intent intent = new Intent(context, ShopDetailActivity.class);
         intent.putExtra(Const.KEY_BEAN, shop);
-        context.startActivity(intent);
+
+        ((MainActivity)context).startActivityForResult(
+                intent, Const.REQUEST_CODE_MAIN_UI);
     }
 }

@@ -1,5 +1,7 @@
 package com.itheima.takeout.ui.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,11 +19,14 @@ import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
 import com.itheima.takeout.dagger2.module.MainFragment1Module;
+import com.itheima.takeout.db.greendao.CartGoods;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.OrderBy;
 import com.itheima.takeout.model.bean.ShopCategory;
+import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.HomeFragment1Presenter;
+import com.itheima.takeout.ui.activity.MainActivity;
 import com.itheima.takeout.ui.adapter.HomeAdapter;
 import com.itheima.takeout.ui.adapter.OrderByAdapter;
 import com.itheima.takeout.ui.adapter.ShopCategoryAdapter;
@@ -31,10 +36,9 @@ import com.liaoinstan.springview.widget.SpringView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
-
-import static android.R.attr.category;
 
 /**
  * @author WJQ
@@ -345,6 +349,10 @@ public class MainFragment1 extends BaseFragment {
     @Inject
     HomeFragment1Presenter presenter;
 
+    public HomeFragment1Presenter getPresenter() {
+        return presenter;
+    }
+
     @Override
     public void initData() {
         // mProtocol = new CommonProtocol();
@@ -422,6 +430,15 @@ public class MainFragment1 extends BaseFragment {
     /** RecyclerView显示的数据集合 */
     private List listData = new ArrayList();
 
+    public List getListData() {
+        return listData;
+    }
+
+    public HomeAdapter getHomeAdapter() {
+        return homeAdapter;
+    }
+
+
     @Override
     public void onHttpSuccess(int reqType, Message msg) {
         if (reqType == IHttpService.TYPE_HOME) {
@@ -472,9 +489,11 @@ public class MainFragment1 extends BaseFragment {
             } else { // 加载更多
                 listData.addAll(pageDatas);
             }
-
             // 刷新列表显示
             homeAdapter.setDatas(listData);
+
+            // 刷新商家购物车商品数量
+            ((MainActivity) mActivity).updateShopGoodsCount();
             return;
         }
     }

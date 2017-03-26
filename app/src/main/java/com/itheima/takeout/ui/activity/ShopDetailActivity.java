@@ -1,6 +1,8 @@
 package com.itheima.takeout.ui.activity;
 
 import android.animation.Animator;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -193,22 +195,7 @@ public class ShopDetailActivity extends BaseActivity {
             tvClearCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // （1）隐藏弹窗
-                    hideBottomSheetLayout();
-                    showToast("购物车已清空");
-
-                    // （2）清空购物商品（该商家所有商品的购买数量置为0）
-                    getFragment1().getPresenter().clearShoppingCart();
-
-                    // （3）刷新右侧列表
-                    getFragment1().getRightAdapter().notifyDataSetChanged();
-
-                    // （4）刷新底部总金额和总数量
-                    updateShoppingCartUI();
-
-                    // （5）数据缓存: 清空该商家所有的商品
-                    getFragment1().getPresenter().getGoodsDao()
-                            .clear(mShop.getId());
+                   showConfirmClearCartDialog();
                 }
             });
 
@@ -222,6 +209,40 @@ public class ShopDetailActivity extends BaseActivity {
 
             bottomSheepLayout.showWithSheetView(cartPopLayout);
         }
+    }
+
+    /**  弹出确定要清除购物车的商品 */
+    private void showConfirmClearCartDialog() {
+        super.showDialog("提示", "确定要清除购物车吗？",
+                new OnDialogClickListener() {
+                    @Override
+                    public void onConfirm(DialogInterface dialog) {
+                        // （1）隐藏弹窗
+                        hideBottomSheetLayout();
+                        showToast("购物车已清空");
+
+                        // （2）清空购物商品（该商家所有商品的购买数量置为0）
+                        getFragment1().getPresenter().clearShoppingCart();
+
+                        // （3）刷新右侧列表
+                        getFragment1().getRightAdapter().notifyDataSetChanged();
+
+                        // （4）刷新底部总金额和总数量
+                        updateShoppingCartUI();
+
+                        // （5）数据缓存: 清空该商家所有的商品
+                        getFragment1().getPresenter().getGoodsDao()
+                                .clear(mShop.getId());
+
+                        // 设置结果码为RESULT_OK
+                        ShopDetailActivity.this.setResult(Activity.RESULT_OK);
+                    }
+
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+
+                    }
+                });
     }
 
     /**更新购物车总金额和总数量*/

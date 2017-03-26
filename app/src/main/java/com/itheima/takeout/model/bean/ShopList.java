@@ -287,6 +287,10 @@ public class ShopList {
     }
 
     public static class ShopListBean implements Serializable{
+
+        /** 某家商购物车商品缓存数量 */
+        public int mBuyCount;
+
         /**
          * activityList : [{"detail":"",
          * "icon":"http://10.0.3.2:8080/TakeoutService/imgs/goods/activity_1.png",

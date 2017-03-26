@@ -1,5 +1,6 @@
 package com.itheima.takeout.ui.holder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Paint;
@@ -44,7 +45,7 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
     }
 
     @Override
-    public View onCreateView(Context context, ViewGroup parent) {
+    public View onCreateView(final Context context, ViewGroup parent) {
         View item = Global.inflate(R.layout.item_shop_detail_goods, parent);
 
         ivIcon = (ImageView) item.findViewById(R.id.iv_icon);
@@ -63,11 +64,15 @@ public class GoodsHolder extends BaseHolderLV<ShopDetail.CategoryBean.GoodsBean>
             public void onClick(View v) {
                 if (v == ibPlus) {      // 点击加号
                     onBtnPlusClick();
+                    // 设置结果码为RESULT_OK
+                    ((ShopDetailActivity) context).setResult(Activity.RESULT_OK);
                     return;
                 }
 
                 if (v == ibMinus) {      // 点击减号
                     onBtnMinusClick();
+                    // 设置结果码为RESULT_OK
+                    ((ShopDetailActivity) context).setResult(Activity.RESULT_OK);
                     return;
                 }
             }
