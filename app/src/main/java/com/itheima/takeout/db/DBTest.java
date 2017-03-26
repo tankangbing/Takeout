@@ -48,8 +48,8 @@ public class DBTest {
     }
 
     private void printAllData() {
-        List<CartGoods> cartGoodses = dao.queryAll();
-        for (CartGoods bean : cartGoodses) {
+        List<CartGoods> cartGoods = dao.queryAll();
+        for (CartGoods bean : cartGoods) {
             LogUtil.d("--------" + bean);
         }
     }
