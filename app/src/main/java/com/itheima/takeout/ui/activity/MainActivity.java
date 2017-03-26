@@ -162,7 +162,6 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == Const.REQUEST_CODE_MAIN_UI
                 && resultCode == Activity.RESULT_OK) {
             updateShopGoodsCount();
@@ -174,7 +173,6 @@ public class MainActivity extends BaseActivity {
         showToast("update");
         // 刷新列表商家的购物车商品数量
         // 获取购物车中所有的商品
-
         List<CartGoods> allCartGoods = mainFragment1
                 .getPresenter().getGoodsDao().queryAll();
         List listData = mainFragment1.getListData();

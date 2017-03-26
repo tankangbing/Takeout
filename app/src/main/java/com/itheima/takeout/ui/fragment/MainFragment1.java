@@ -504,4 +504,9 @@ public class MainFragment1 extends BaseFragment {
             showToast("请求失败：" + error);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
