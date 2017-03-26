@@ -68,4 +68,8 @@ dependencies {
     // 带头部固定的ListView
     compile 'se.emilsjolander:stickylistheaders:2.7.0'
 
+    // GreenDao
+    compile 'de.greenrobot:greendao:2.1.0'
+    compile 'de.greenrobot:greendao-generator:2.1.0'
+
 }

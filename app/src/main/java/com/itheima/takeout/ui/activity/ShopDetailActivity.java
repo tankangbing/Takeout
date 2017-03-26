@@ -2,6 +2,7 @@ package com.itheima.takeout.ui.activity;
 
 import android.animation.Animator;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -161,7 +162,6 @@ public class ShopDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
     }
 
     @Override
