@@ -32,6 +32,14 @@ public class CommonProtocol extends BaseProtocol {
                 callback, IHttpService.TYPE_LOGIN, Login.class);
     }
 
+    /** 登录：使用账号密码登录 */
+    public void login(final OnHttpCallback callback,
+                      String username, String password) {
+        super.execute(super.getHttpService().login(
+                IHttpService.TYPE_LOGIN_NORMAL, username, password),
+                callback, IHttpService.TYPE_LOGIN_2, Login.class);
+    }
+
     /** 获取商家排序条件数据 */
     public void getOrderBy(final OnHttpCallback callback) {
         super.execute(super.getHttpService().getOrderBy(),

@@ -35,6 +35,7 @@ public interface IHttpService {
     int TYPE_ORDER_BY = 3;
     int TYPE_SHOP_DETAIL = 4;
     int TYPE_LOGIN = 4;
+    int TYPE_LOGIN_2 = 5;
 
     @GET("home")
     Call<JsonObject> getHomeData();
@@ -43,6 +44,12 @@ public interface IHttpService {
     Call<JsonObject> login(
             @Query("type") int type,
             @Query("phone") String phone);
+
+    @GET("login")
+    Call<JsonObject> login(
+            @Query("type") int type,
+            @Query("username") String username,
+            @Query("password") String password);
 
     @GET("shopCategory")
     Call<JsonObject> getShopCategory();

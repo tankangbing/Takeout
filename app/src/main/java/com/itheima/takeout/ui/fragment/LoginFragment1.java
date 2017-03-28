@@ -211,7 +211,6 @@ public class LoginFragment1 extends BaseFragment {
         @Override
         public void afterEvent(int event, int result, Object data) {
             if (result == SMSSDK.RESULT_COMPLETE) { // 回调成功
-
                 // 获取验证码成功 (子线程回调)
                 if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
                     mActivity.dismissProgressDialog();

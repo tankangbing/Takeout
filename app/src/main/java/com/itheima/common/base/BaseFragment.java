@@ -103,6 +103,7 @@ public abstract class BaseFragment extends Fragment
 	// 网络请求失败
 	@Override
 	public void onHttpError(int reqType, String error) {
+		mActivity.dismissProgressDialog();
 		// 提示出错对话框
 		mActivity.showDialog("提示", error);
 	}
