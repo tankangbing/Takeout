@@ -2,9 +2,7 @@ package com.itheima.takeout.ui.holder;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Paint;
-import android.view.PointerIcon;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -13,9 +11,7 @@ import android.widget.TextView;
 
 import com.itheima.common.base.Global;
 import com.itheima.common.ui.BaseAdapterLV;
-import com.itheima.common.ui.BaseAdapterRV;
 import com.itheima.common.ui.BaseHolderLV;
-import com.itheima.common.ui.BaseHolderRV;
 import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
 import com.itheima.takeout.db.greendao.CartGoods;

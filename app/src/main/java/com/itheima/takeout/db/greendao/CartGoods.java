@@ -5,16 +5,6 @@ package com.itheima.takeout.db.greendao;
  * Entity mapped to table "CART_GOODS".
  */
 public class CartGoods {
-    @Override
-    public String toString() {
-        return "CartGoods{" +
-                "id=" + id +
-                ", goodsId=" + goodsId +
-                ", categoryId=" + categoryId +
-                ", shopId=" + shopId +
-                ", count=" + count +
-                '}';
-    }
 
     private Long id;
     private Integer goodsId;

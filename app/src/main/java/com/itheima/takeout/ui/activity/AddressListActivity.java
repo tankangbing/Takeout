@@ -7,7 +7,13 @@ import android.view.View;
 
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
+import com.itheima.common.util.LogUtil;
 import com.itheima.takeout.R;
+import com.itheima.takeout.db.greendao.Address;
+import com.itheima.takeout.db.greendao.AddressDao;
+import com.itheima.takeout.model.dao.GreenDaoHelper;
+
+import java.util.List;
 
 import static com.itheima.takeout.R.id.ll_add_address;
 
@@ -35,7 +41,14 @@ public class AddressListActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        AddressDao addressDao = GreenDaoHelper.getInstance().getAddressDao();
+        // 所有的地址
+        List<Address> list = addressDao.queryBuilder().build().list();
+        if (list != null) {
+            for (Address address : list) {
+                LogUtil.d("--------------地址：" + address.toString());
+            }
+        }
     }
 
     @Override

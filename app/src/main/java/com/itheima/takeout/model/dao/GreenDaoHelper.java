@@ -3,6 +3,7 @@ package com.itheima.takeout.model.dao;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.itheima.common.base.Global;
+import com.itheima.takeout.db.greendao.AddressDao;
 import com.itheima.takeout.db.greendao.CartGoodsDao;
 import com.itheima.takeout.db.greendao.DaoMaster;
 import com.itheima.takeout.db.greendao.DaoSession;
@@ -45,5 +46,10 @@ public class GreenDaoHelper {
     /** 购物车商品增删改查的操作类 */
     public CartGoodsDao getCartGoodsDao() {
         return daoSession.getCartGoodsDao();
+    }
+
+    /** 购物车商品增删改查的操作类 */
+    public AddressDao getAddressDao() {
+        return daoSession.getAddressDao();
     }
 }

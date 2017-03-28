@@ -28,7 +28,15 @@ public class DBGenerator {
         //cartGoods.addStringProperty("goodsName");
 
         // 定义数据库表：表2： 收件人地址
-        // Entity Address = schema.addEntity("Address");
+        Entity address = schema.addEntity("Address");
+        address.addIdProperty().autoincrement();      // 自增的主键
+        address.addStringProperty("name");          // 收件人的名字
+        address.addIntProperty("sex");              // 性别
+        address.addStringProperty("phone");         // 电话号码
+        address.addStringProperty("addressName");   // 地址名称
+        address.addStringProperty("addressDetail"); // 地址详情
+        address.addDoubleProperty("latitude");        // 纬度
+        address.addDoubleProperty("longitude");       // 经度
 
         // 生成模板代码
         try {
