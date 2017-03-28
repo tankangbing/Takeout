@@ -15,8 +15,19 @@ public enum Sex {
     private String sex;
 
     public String getSex() {
-
         return sex;
+    }
+
+    public static Sex of(int code) {
+        if (code == 0) {
+            return MALE;
+        }
+
+        if (code == 1) {
+            return FEMALE;
+        }
+
+        return MALE;
     }
 
     private Sex(String sex) {

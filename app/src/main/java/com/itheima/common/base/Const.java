@@ -14,6 +14,7 @@ public class Const {
 
     public static final String SP_TOKEN =  "token";
     public static final String SP_USER_NAME = "username";
+    public static final String SP_DEFAULT_ADDRESS = "address";
 
 
     /** 下拉刷新 */

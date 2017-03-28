@@ -73,7 +73,6 @@ public class AddressManageActivity extends BaseActivity {
     @Override
     public void initData() {
         mPresenter = new AddressManageActivityPresenter(this);
-
     }
 
     @Override
@@ -87,7 +86,6 @@ public class AddressManageActivity extends BaseActivity {
     /** 保存或编辑地址 */
     private void saveOrEdit() {
         if (mAddress == null) {     // 新增地址
-
             if (validateInput()) {      // 验证通过,保存地址到数据库中
                 String name = etName.getText().toString().trim();
                 String phone = etPhone.getText().toString().trim();
@@ -141,6 +139,7 @@ public class AddressManageActivity extends BaseActivity {
             showDialog("请设置详细地址");
             return false;
         }
+
         // 验证通过
         return true;
     }
