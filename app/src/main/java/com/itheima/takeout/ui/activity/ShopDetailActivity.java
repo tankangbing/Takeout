@@ -3,13 +3,16 @@ package com.itheima.takeout.ui.activity;
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.LinearInterpolator;
@@ -25,6 +28,7 @@ import com.flipboard.bottomsheet.BottomSheetLayout;
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
 import com.itheima.common.base.Global;
+import com.itheima.common.util.SharedPreUtil;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.model.bean.ShopList;
@@ -172,6 +176,33 @@ public class ShopDetailActivity extends BaseActivity {
         if (v == flMycartZoom || v == llBottomCardLayout02) {
             showOrHideCartLayout();
             return;
+        }
+
+        if (id == R.id.tv_submit) {     // 点击“选好了”
+            onBtnSubmitClick();
+            return;
+        }
+    }
+
+    /** 点击“选好了”按钮 */
+    private void onBtnSubmitClick() {
+        String token = SharedPreUtil.getString(this, Const.SP_TOKEN, "");
+        if (TextUtils.isEmpty(token)) { // 没有登录，进入登录界面
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivityForResult(intent, Const.REQUEST_CODE_SHOP_DETAIL);
+        } else {    // 已经登录，直接进入确认订单界面
+            Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 登录成功，直接进入确认订单界面
+        if (requestCode == Const.REQUEST_CODE_SHOP_DETAIL
+                && resultCode == Activity.RESULT_OK) {
+            onBtnSubmitClick();
         }
     }
 

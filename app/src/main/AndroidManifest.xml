@@ -33,6 +33,9 @@
         </activity>
         <activity android:name=".ui.activity.ShopDetailActivity"/>
         <activity android:name=".ui.activity.LoginActivity"/>
+        <activity android:name=".ui.activity.ConfirmOrderActivity"/>
+        <activity android:name=".ui.activity.AddressListActivity"/>
+        <activity android:name=".ui.activity.AddressManageActivity"/>
 
     </application>
 

@@ -15,6 +15,7 @@ import com.itheima.takeout.db.greendao.CartGoodsDao;
  * Master of DAO (schema version 1): knows all DAOs.
 */
 public class DaoMaster extends AbstractDaoMaster {
+
     public static final int SCHEMA_VERSION = 1;
 
     /** Creates underlying database table using DAOs. */
