@@ -1,6 +1,7 @@
 package com.itheima.takeout.model.protocol;
 
 import com.itheima.common.base.Const;
+import com.itheima.takeout.model.bean.CreateOrder;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.Login;
 import com.itheima.takeout.model.bean.OrderBy;
@@ -18,6 +19,12 @@ import java.util.Map;
  * @author WJQ
  */
 public class CommonProtocol extends BaseProtocol {
+
+    /** 创建订单 */
+    public void createOrder(final OnHttpCallback callback, String payInfo) {
+        super.execute(super.getHttpService().createOrder(payInfo),
+                callback, IHttpService.TYPE_CREATE_ORDER, CreateOrder.class);
+    }
 
     /** 获取首页数据 */
     public void getHomeData(final OnHttpCallback callback) {

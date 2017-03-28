@@ -1,5 +1,6 @@
 package com.itheima.takeout.model.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -298,7 +299,7 @@ public class ShopDetail {
         }
 
         /** 一件商品 */
-        public static class GoodsBean {
+        public static class GoodsBean implements Serializable {
             /**
              * bargainPrice : false
              * categoryId : 1

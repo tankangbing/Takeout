@@ -192,6 +192,11 @@ public class ShopDetailActivity extends BaseActivity {
             startActivityForResult(intent, Const.REQUEST_CODE_SHOP_DETAIL);
         } else {    // 已经登录，直接进入确认订单界面
             Intent intent = new Intent(this, ConfirmOrderActivity.class);
+            intent.putExtra(Const.KEY_BEAN, mShop);                 // 商家信息
+            // 购物车中所有的商品
+            ArrayList<ShopDetail.CategoryBean.GoodsBean> allCartGoods
+                    = shopDetailFragment1.getPresenter().getAllShoppingCartGoods();
+            intent.putExtra(Const.KEY_CART_GOODS, allCartGoods);
             startActivity(intent);
         }
     }

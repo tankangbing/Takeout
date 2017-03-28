@@ -10,11 +10,15 @@ import android.widget.TextView;
 
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
+import com.itheima.common.base.Global;
 import com.itheima.takeout.R;
 import com.itheima.takeout.db.greendao.Address;
+import com.itheima.takeout.model.bean.ShopDetail;
+import com.itheima.takeout.model.bean.ShopList;
 import com.itheima.takeout.model.bean.local.Sex;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * 确认订单界面
@@ -37,6 +41,11 @@ public class ConfirmOrderActivity extends BaseActivity {
     private TextView tvDeliveryFee;
     private TextView tvAmount;
     private TextView tvSubmit;
+
+    /** 商家详情数据 */
+    private ShopList.ShopListBean mShop;
+    /** 购物车中所有的商品 */
+    private ArrayList<ShopDetail.CategoryBean.GoodsBean> allCartGoods;
 
     @Override
     public int getLayoutRes() {
@@ -68,7 +77,38 @@ public class ConfirmOrderActivity extends BaseActivity {
 
     @Override
     public void initData() {
+        mShop = (ShopList.ShopListBean) getIntent().getSerializableExtra(Const.KEY_BEAN);
+        allCartGoods = (ArrayList<ShopDetail.CategoryBean.GoodsBean>)
+                getIntent().getSerializableExtra(Const.KEY_CART_GOODS);
 
+        fillData();
+    }
+
+    /** 显示购买的商品 */
+    private void fillData() {
+        if (allCartGoods != null) {
+            for (ShopDetail.CategoryBean.GoodsBean goodsBean : allCartGoods) {
+                View item = Global.inflate(R.layout.item_goods_confirm_order, llGoods);
+
+                TextView tvGoodsName = (TextView) item.findViewById(R.id.tv_goods_name);
+                TextView tvGoodsCount = (TextView) item.findViewById(R.id.tv_goods_count);
+                TextView tvGoodsPrice = (TextView) item.findViewById(R.id.tv_goods_price);
+
+                tvGoodsName.setText(goodsBean.getName());
+                tvGoodsCount.setText("x " + goodsBean.mBuyCount);
+                float price = goodsBean.getNewPrice() * goodsBean.mBuyCount;
+                tvGoodsPrice.setText("￥" + price);
+
+                llGoods.addView(item);
+            }
+
+            // 总金额
+            float totalAmount = 0;
+            for (ShopDetail.CategoryBean.GoodsBean goodsBean : allCartGoods) {
+                totalAmount += goodsBean.getNewPrice() * goodsBean.mBuyCount;
+            }
+            tvAmount.setText("￥" + totalAmount);
+        }
     }
 
     @Override
@@ -77,6 +117,16 @@ public class ConfirmOrderActivity extends BaseActivity {
             enterSelectAddressActivity();
             return;
         }
+
+        if (id == R.id.tv_submit) {      // 进入支付
+            enterPayActivity();
+            return;
+        }
+    }
+
+    private void enterPayActivity() {
+        Intent view = new Intent(this, PayActivity.class);
+        startActivityForResult(view, Const.REQUEST_CODE_CONFIRM_ORDER);
     }
 
     private void enterSelectAddressActivity() {

@@ -10,6 +10,7 @@ import com.itheima.common.base.Const;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -36,9 +37,15 @@ public interface IHttpService {
     int TYPE_SHOP_DETAIL = 4;
     int TYPE_LOGIN = 4;
     int TYPE_LOGIN_2 = 5;
+    int TYPE_CREATE_ORDER = 6;
 
     @GET("home")
     Call<JsonObject> getHomeData();
+
+    @POST("createOrder")
+    @FormUrlEncoded
+    Call<JsonObject> createOrder(
+            @Field("payInfo") String payInfo);
 
     @GET("login")
     Call<JsonObject> login(

@@ -3,7 +3,9 @@ package com.itheima.common.base;
 public class Const {
 
 	public static final String HOST_IP = "192.168.56.1";
+//	public static final String HOST_IP = "45.78.29.236";
     public static final String KEY_BEAN =  "data";
+    public static final String KEY_CART_GOODS =  "cart_goods";
 
     /** 请求码：主界面 */
     public static final int REQUEST_CODE_MAIN_UI = 0;

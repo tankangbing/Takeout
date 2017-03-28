@@ -3,6 +3,7 @@ package com.itheima.takeout.ui.holder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.itheima.takeout.R;
 import com.itheima.takeout.db.greendao.Address;
 import com.itheima.takeout.model.bean.local.Sex;
 import com.itheima.takeout.ui.activity.AddressListActivity;
+import com.itheima.takeout.ui.activity.AddressManageActivity;
 import com.itheima.takeout.ui.adapter.AddressAdapter;
 import com.itheima.takeout.ui.adapter.HomeCategoryAdapter;
 
@@ -40,6 +42,17 @@ public class AddressHolder extends BaseHolderRV<Address> {
         tvUserInfo = (TextView) itemView.findViewById(R.id.tv_user_info);
         ivEdit = (ImageView) itemView.findViewById(R.id.iv_edit);
         ivCurrentAddress = (ImageView) itemView.findViewById(R.id.iv_current_address);
+
+        // 点击进入编辑地址
+        ivEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddressManageActivity.class);
+                intent.putExtra(Const.KEY_BEAN, bean);
+                ((AddressListActivity) context).startActivityForResult(
+                        intent, Const.REQUEST_CODE_ADDRESS_LIST);
+            }
+        });
     }
 
     @Override
