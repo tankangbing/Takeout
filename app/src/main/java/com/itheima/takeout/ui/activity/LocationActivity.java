@@ -2,6 +2,7 @@ package com.itheima.takeout.ui.activity;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +18,17 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.overlay.PoiOverlay;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.util.LogUtil;
 import com.itheima.takeout.R;
+import com.itheima.takeout.ui.adapter.POIAdapter;
+
+import java.util.ArrayList;
 
 /**
  * @author admin
@@ -31,6 +40,7 @@ public class LocationActivity extends BaseActivity {
     private MapView mapView;
 
     private RecyclerView recyclerView;
+    private POIAdapter mAdapter;
 
     @Override
     public int getLayoutRes() {
@@ -40,6 +50,9 @@ public class LocationActivity extends BaseActivity {
     @Override
     public void initView() {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter = new POIAdapter(this, null);
+        recyclerView.setAdapter(mAdapter);
 
         initMap();
     }
@@ -72,10 +85,11 @@ public class LocationActivity extends BaseActivity {
                 if (aMapLocation == null)
                     return;
 
+                // 第4步： 获取定位结果
                 if (aMapLocation.getErrorCode() == 0) { // 定位成功
                     String info = aMapLocation.getLatitude() + "   "
                             + aMapLocation.getLongitude();
-                    showToast(info);
+                    // showToast(info);
                     LogUtil.d("----------定位： " + info);
 
                     // 显示系统小蓝点
@@ -83,8 +97,11 @@ public class LocationActivity extends BaseActivity {
                         mOnLocationChangedListener.onLocationChanged(aMapLocation);
                     }
 
-                    // 通过标注显示当前位置
+                    // 第5步：通过标注显示当前位置
                     showMyLocation(aMapLocation);
+
+                    // 第6步：搜索周边的位置
+                    poiSearch(aMapLocation);
 
                     // 定位成功后，停止定位
                     stopLocation();
@@ -97,6 +114,64 @@ public class LocationActivity extends BaseActivity {
             }
         });
         startLocation();
+    }
+
+    private PoiSearch.Query query;
+    private PoiSearch poiSearch;
+
+    /** 第6步：搜索周边的位置*/
+    private void poiSearch(final AMapLocation aMapLocation) {
+        //keyWord表示搜索字符串，
+        //第二个参数表示POI搜索类型，可以传空
+        //cityCode表示POI搜索区域，可以是城市编码也可以是城市名称，
+        // 也可以传空字符串，空字符串代表全国在全国范围内进行搜索
+        String keyWord = "";
+        String cityCode = aMapLocation.getCityCode();
+        query = new PoiSearch.Query(keyWord, "", cityCode);
+        query.setPageSize(10);              // 每页多少条
+        query.setPageNum(1);                // 设置查询页码
+
+        // 创建搜索对象
+        poiSearch = new PoiSearch(this, query);
+
+        // 周边搜索：指定中心点的搜索范围（半径: 1000米）
+        LatLonPoint currentPos = new LatLonPoint(
+                aMapLocation.getLatitude(), aMapLocation.getLongitude());
+        poiSearch.setBound(new PoiSearch.SearchBound(currentPos, 1000));
+
+        // 设置监听器
+        poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+            @Override
+            public void onPoiSearched(PoiResult poiResult, int i) {
+                // 接收搜索结果
+                if (poiResult == null)
+                    return;
+
+                // 搜索结果（分页数据）
+                ArrayList<PoiItem> listData = poiResult.getPois();
+
+                // 列表第一项显示当前位置， 所以多加一个PoiItem
+                PoiItem item = new PoiItem("",
+                        new LatLonPoint(aMapLocation.getLatitude(), aMapLocation.getLongitude()),
+                        "[当前位置]" + aMapLocation.getPoiName(),   // title
+                        aMapLocation.getAddress());                 // Snippet 详情地址
+                listData.add(0, item);      // 作为集合的第一个元素
+
+                // 使用Overlay，在地图上显示搜索结果
+                PoiOverlay overlay = new PoiOverlay(mAMap, listData);
+                overlay.addToMap();         // 添加到地图
+                overlay.zoomToSpan();       // 缩放地图到合适的范围，以查看所有数据
+
+                // 在列表中显示地址
+                mAdapter.setDatas(listData);
+            }
+
+            @Override
+            public void onPoiItemSearched(PoiItem poiItem, int i) {
+            }
+        });
+        // 发起异步搜索
+        poiSearch.searchPOIAsyn();
     }
 
     /** 通过标注显示当前位置*/

@@ -78,7 +78,7 @@
         <!--==========高德地图配置===(end)===============-->
 
         <activity
-            android:name=".ui.activity.LocationActivity"
+            android:name=".ui.activity.MainActivity"
             android:theme="@style/FullImmerseMode">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -91,6 +91,9 @@
         <activity android:name=".ui.activity.AddressListActivity"/>
         <activity android:name=".ui.activity.AddressManageActivity"/>
         <activity android:name=".ui.activity.PayActivity"/>
+        <activity android:name=".ui.activity.LocationActivity"/>
+        <activity android:name=".ui.activity.OrderDetailMapActivity"/>
+        <activity android:name=".ui.activity.OrderDetailActivity"/>
 
 
         <!--==========支付宝(begin)====================-->

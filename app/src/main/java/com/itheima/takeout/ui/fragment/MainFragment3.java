@@ -57,7 +57,7 @@ public class MainFragment3 extends BaseFragment {
 
         recyclerView = (RecyclerView) findView(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        orderListAdapter = new OrderListAdapter(mContext, null);
+        orderListAdapter = new OrderListAdapter(mActivity, null);
         recyclerView.setAdapter(orderListAdapter);
 
         mPresenter = new MainFragment3Presenter(this);

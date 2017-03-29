@@ -1,7 +1,9 @@
 package com.itheima.takeout.ui.holder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +15,8 @@ import com.itheima.common.util.Utils;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.OrderList;
 import com.itheima.takeout.model.bean.local.OrderStatus;
+import com.itheima.takeout.ui.activity.MainActivity;
+import com.itheima.takeout.ui.activity.OrderDetailActivity;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -109,5 +113,12 @@ public class OrderListHolder extends BaseHolderRV<OrderList.OrderListBean> {
             tvLeft.setText("再来一单");
             tvRight.setText("投拆");
         }
+    }
+
+    @Override
+    protected void onItemClick(View itemView, int position,
+                               OrderList.OrderListBean ean) {
+        Intent view = new Intent(context, OrderDetailActivity.class);
+        ((MainActivity)context).startActivity(view);
     }
 }

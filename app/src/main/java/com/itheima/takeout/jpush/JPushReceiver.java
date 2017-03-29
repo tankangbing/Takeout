@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.itheima.common.base.Const;
 import com.itheima.common.base.OttoBus;
 import com.itheima.common.util.LogUtil;
+import com.itheima.takeout.model.bean.local.Location;
 import com.itheima.takeout.model.bean.local.OrderUpdate;
 import com.itheima.takeout.ui.activity.MainActivity;
 import com.ta.utdid2.android.utils.StringUtils;
@@ -44,6 +45,10 @@ public class JPushReceiver extends BroadcastReceiver {
 
             } else if (msgType == 2) {  // 2：更新骑手位置
 
+                Message msg = new Message();
+                msg.what = Const.TYPE_UPDATE_RIDER_POSITION;
+                msg.obj = new Gson().fromJson(json, Location.class);
+                OttoBus.getDefault().post(msg);
             }
         } catch (Exception e) {
             e.printStackTrace();

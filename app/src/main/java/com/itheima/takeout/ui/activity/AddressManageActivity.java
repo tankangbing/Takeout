@@ -1,6 +1,7 @@
 package com.itheima.takeout.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -10,11 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.amap.api.services.core.PoiItem;
 import com.itheima.common.base.BaseActivity;
 import com.itheima.common.base.Const;
 import com.itheima.takeout.R;
 import com.itheima.takeout.db.greendao.Address;
-import com.itheima.takeout.model.bean.local.Sex;
 import com.itheima.takeout.presenter.AddressManageActivityPresenter;
 
 /**
@@ -37,6 +38,7 @@ public class AddressManageActivity extends BaseActivity {
 
     /** 要编辑的地址 */
     private Address mAddress;
+    private PoiItem poiItem;
 
     @Override
     public int getLayoutRes() {
@@ -83,6 +85,7 @@ public class AddressManageActivity extends BaseActivity {
 
     @Override
     public void initListener() {
+        findViewById(R.id.ll_location).setOnClickListener(this);
     }
 
     private AddressManageActivityPresenter mPresenter;
@@ -104,6 +107,28 @@ public class AddressManageActivity extends BaseActivity {
             setResult(Activity.RESULT_OK);      // 退出当前界面
             finish();
             return;
+        }
+
+        if (id == R.id.ll_location) {     // 进入定位界面
+            enterLocationActivity();
+            return;
+        }
+    }
+
+    /** 进入定位界面*/
+    private void enterLocationActivity() {
+        Intent view = new Intent(this, LocationActivity.class);
+        startActivityForResult(view, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            // 回显用户选择地址
+            poiItem = (PoiItem) intent.getParcelableExtra(Const.KEY_BEAN);
+            tvAddress.setText(poiItem.getTitle().replaceAll("\\[当前位置\\]", ""));
         }
     }
 
