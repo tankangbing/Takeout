@@ -5,6 +5,7 @@ import com.itheima.takeout.model.bean.CreateOrder;
 import com.itheima.takeout.model.bean.Home;
 import com.itheima.takeout.model.bean.Login;
 import com.itheima.takeout.model.bean.OrderBy;
+import com.itheima.takeout.model.bean.OrderList;
 import com.itheima.takeout.model.bean.ShopCategory;
 import com.itheima.takeout.model.bean.ShopDetail;
 import com.itheima.takeout.model.bean.ShopList;
@@ -24,6 +25,12 @@ public class CommonProtocol extends BaseProtocol {
     public void createOrder(final OnHttpCallback callback, String payInfo) {
         super.execute(super.getHttpService().createOrder(payInfo),
                 callback, IHttpService.TYPE_CREATE_ORDER, CreateOrder.class);
+    }
+
+    /** 获取订单列表数据 */
+    public void getOrderList(final OnHttpCallback callback, String token, String username) {
+        super.execute(super.getHttpService().getOrderList(username, token),
+                callback, IHttpService.TYPE_ORDER_LIST, OrderList.class);
     }
 
     /** 获取首页数据 */

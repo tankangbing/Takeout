@@ -1,6 +1,9 @@
 package com.itheima.takeout.ui.fragment;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -8,9 +11,12 @@ import android.widget.TextView;
 
 import com.itheima.common.base.BaseFragment;
 import com.itheima.common.base.Const;
+import com.itheima.common.base.OttoBus;
 import com.itheima.common.util.SharedPreUtil;
 import com.itheima.takeout.R;
+import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.ui.activity.LoginActivity;
+import com.squareup.otto.Subscribe;
 
 /**
  * @author WJQ
@@ -77,6 +83,12 @@ public class MainFragment4 extends BaseFragment {
         SharedPreUtil.saveString(mActivity, Const.SP_TOKEN, "");
         SharedPreUtil.saveString(mActivity, Const.SP_USER_NAME, "");
 
+        // 注销后，发送otto事件
+        // 发送otto事件，通知界面刷新
+        Message ottoMsg = new Message();
+        ottoMsg.what = IHttpService.TYPE_LOGOUT;
+        OttoBus.getDefault().post(ottoMsg);
+
         // 重新刷新界面
         checkLogin();
     }
@@ -86,4 +98,30 @@ public class MainFragment4 extends BaseFragment {
         Intent intent = new Intent(mActivity, LoginActivity.class);
         mActivity.startActivityForResult(intent, Const.REQUEST_CODE_MINE);
     }
+
+
+
+    //============otto事件监听(begin)====================
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // 注册otto
+        OttoBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // 注销otto
+        OttoBus.getDefault().unregister(this);
+    }
+
+    // 监听otto事件的方法
+    @Subscribe
+    public void onEvent(Message ottoMsg) {
+        if (ottoMsg.what == IHttpService.TYPE_LOGIN) {
+            checkLogin();   // 刷新界面显示
+        }
+    }
+    //============otto事件监听(end)====================
 }

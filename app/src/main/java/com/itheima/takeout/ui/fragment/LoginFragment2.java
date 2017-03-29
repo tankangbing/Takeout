@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import com.itheima.common.base.BaseFragment;
 import com.itheima.common.base.Const;
+import com.itheima.common.base.OttoBus;
 import com.itheima.common.ui.EditLayout;
 import com.itheima.common.util.MD5;
 import com.itheima.common.util.SharedPreUtil;
@@ -91,6 +92,13 @@ public class LoginFragment2 extends BaseFragment {
             // 保存token,用启名和其它用户相关信息
             SharedPreUtil.saveString(mActivity, Const.SP_TOKEN, login.getToken());
             SharedPreUtil.saveString(mActivity, Const.SP_USER_NAME, login.getUsername());
+
+            // 发送otto事件，通知界面刷新
+            Message ottoMsg = new Message();
+            ottoMsg.what = IHttpService.TYPE_LOGIN;
+            // ottoMsg.obj = null;
+            OttoBus.getDefault().post(ottoMsg);
+
             // 回到主界面，显示用户信息
             mActivity.setResult(Activity.RESULT_OK);
             mActivity.finish();     // 退出登录界面

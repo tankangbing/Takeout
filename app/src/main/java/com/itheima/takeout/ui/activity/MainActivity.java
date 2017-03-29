@@ -174,7 +174,9 @@ public class MainActivity extends BaseActivity {
         if (Const.REQUEST_CODE_MINE == requestCode
                 && resultCode == Activity.RESULT_OK) {
             // 重新检测登录状态，并刷新界面
-            mainFragment4.checkLogin();
+            // mainFragment4.checkLogin();
+
+            // 修改为通过otto发送事件刷新
         }
     }
 

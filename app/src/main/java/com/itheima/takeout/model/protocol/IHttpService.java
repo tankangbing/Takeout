@@ -3,7 +3,6 @@ package com.itheima.takeout.model.protocol;
 /**
  * @author WJQ
  */
-
 import com.google.gson.JsonObject;
 import com.itheima.common.base.Const;
 
@@ -22,7 +21,6 @@ public interface IHttpService {
 
     String HOST_URL = "http://" + Const.HOST_IP + ":8080/TakeoutService/";
 
-
 //    0: 账号密码登录
 //    1：手机号码登录
 //    2: 第三方应用登录
@@ -38,6 +36,8 @@ public interface IHttpService {
     int TYPE_LOGIN = 4;
     int TYPE_LOGIN_2 = 5;
     int TYPE_CREATE_ORDER = 6;
+    int TYPE_LOGOUT = 7;
+    int TYPE_ORDER_LIST = 8;
 
     @GET("home")
     Call<JsonObject> getHomeData();
@@ -46,6 +46,12 @@ public interface IHttpService {
     @FormUrlEncoded
     Call<JsonObject> createOrder(
             @Field("payInfo") String payInfo);
+
+    @POST("orderList")
+    @FormUrlEncoded
+    Call<JsonObject> getOrderList(
+            @Field("username") String username,
+            @Field("token") String token);
 
     @GET("login")
     Call<JsonObject> login(
@@ -71,5 +77,4 @@ public interface IHttpService {
     @FormUrlEncoded
     Call<JsonObject> getShopList(
             @FieldMap Map<String, Object> map);
-
 }
