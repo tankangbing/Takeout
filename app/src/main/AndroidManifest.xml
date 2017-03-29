@@ -61,6 +61,22 @@
         </activity>
         <!--==========支付宝(end)====================-->
 
+        <!--==========极光推送(begin)====================-->
+        <receiver
+            android:name=".jpush.JPushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="com.itheima.takeout" />
+            </intent-filter>
+        </receiver>
+        <!--==========极光推送(end)====================-->
+
     </application>
 
 </manifest>

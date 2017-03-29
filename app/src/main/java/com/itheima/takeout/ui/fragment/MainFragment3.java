@@ -100,7 +100,6 @@ public class MainFragment3 extends BaseFragment {
         // 获取订单列表数据
         if (reqType == IHttpService.TYPE_ORDER_LIST) {
             OrderList orderList = (OrderList) msg.obj;
-
             // showToast("订单个数：" + orderList.getOrderList().size());
             // 显示订单列表
             orderListAdapter.setDatas(orderList.getOrderList());

@@ -2,6 +2,7 @@ package com.itheima.takeout.base;
 
 import com.itheima.common.base.MyApp;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.smssdk.SMSSDK;
 
 /**
@@ -16,5 +17,9 @@ public class MyApp2 extends MyApp {
         // 短信验证登录
         SMSSDK.initSDK(this, "1c32a690937b0",
                 "490f625347ea37b1ff872bc25e05aef7");
+
+        // 初始化极光SDK
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 }
