@@ -18,6 +18,7 @@ import com.itheima.common.base.OttoBus;
 import com.itheima.common.util.SharedPreUtil;
 import com.itheima.takeout.R;
 import com.itheima.takeout.model.bean.OrderList;
+import com.itheima.takeout.model.bean.local.OrderUpdate;
 import com.itheima.takeout.model.protocol.IHttpService;
 import com.itheima.takeout.presenter.MainFragment3Presenter;
 import com.itheima.takeout.ui.adapter.OrderListAdapter;
@@ -129,6 +130,15 @@ public class MainFragment3 extends BaseFragment {
                 || ottoMsg.what == IHttpService.TYPE_LOGOUT) {
             showToast("otto");
             checkLogin();
+            return;
+        }
+
+        // 接收推送消息，更新列表订单状态
+        if (ottoMsg.what == Const.TYPE_UPDATE_ORDER_STATUS){
+            OrderUpdate bean = (OrderUpdate) ottoMsg.obj;
+            // 更新列表中对应的订单状态
+            orderListAdapter.updateOrderStatus(bean);
+            return;
         }
     }
     //============otto事件监听(end)====================

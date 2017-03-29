@@ -23,4 +23,7 @@ public class Const {
     public static int TYPE_REFRESH = 1;
     /** 加载更多 */
     public static final int TYPE_LOAD_MORE = 0;
+
+    public static int TYPE_UPDATE_ORDER_STATUS = 100;
+    public static int TYPE_UPDATE_RIDER_POSITION = 101;
 }

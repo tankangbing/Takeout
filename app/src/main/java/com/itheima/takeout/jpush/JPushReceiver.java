@@ -5,11 +5,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 
+import com.google.gson.Gson;
+import com.itheima.common.base.Const;
+import com.itheima.common.base.OttoBus;
 import com.itheima.common.util.LogUtil;
+import com.itheima.takeout.model.bean.local.OrderUpdate;
 import com.itheima.takeout.ui.activity.MainActivity;
 import com.ta.utdid2.android.utils.StringUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.logging.Logger;
@@ -21,9 +27,28 @@ public class JPushReceiver extends BroadcastReceiver {
     /** 取出消息，并处理 */
     private void processCustomMessage(Context context, Bundle bundle) {
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
-        String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
+        String json = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         LogUtil.d("--------title: " + title);
-        LogUtil.d("--------message: " + message);
+        LogUtil.d("--------message: " + json);
+
+        try {
+            JSONObject object = new JSONObject(json);
+            int msgType = object.getInt("msgType");
+            if (msgType == 1) {         // 1：表示更新订单状态
+
+                // 发送Otto消息
+                Message msg = new Message();
+                msg.what = Const.TYPE_UPDATE_ORDER_STATUS;
+                msg.obj = new Gson().fromJson(json, OrderUpdate.class);
+                OttoBus.getDefault().post(msg);
+
+            } else if (msgType == 2) {  // 2：更新骑手位置
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.d("-----error: " + e.getMessage());
+        }
     }
 
 
